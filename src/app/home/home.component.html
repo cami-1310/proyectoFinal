@@ -1,0 +1,118 @@
+<section id="contenedor">
+    <div id="carouselContainer" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselContainer" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselContainer" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselContainer" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carouselContainer" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        </div>
+      
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="img1.png" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+              <h1 class="texto textoh1">Descubre la magia de los Alpes</h1>
+              <p class="texto textop">Vive una experiencia inolvidable entre montañas nevadas y hospitalidad latina.</p>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <img src="img2.png" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+              <h1 class="texto textoh1">Confort y calidez</h1>
+              <p class="texto textop">Habitaciones exclusivas diseñadas para que te sientas como en casa, lejos de casa.</p>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <img src="img3.png" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+              <h1 class="texto textoh1">Visita en cualquier época del año</h1>
+              <p class="texto textop">Ofrecemos aventura durante primavera, verano, otoño o invierno. Disfruta cuando quieras.</p>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <img src="img4.png" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+              <h1 class="texto textoh1">Aventura y relajación</h1>
+              <p class="texto textop">Desde excursiones en la nieve hasta spas de ensueño. ¡Tú eliges cómo disfrutar!</p>
+            </div>
+          </div>
+        </div>
+      
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselContainer" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselContainer" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+    </div>  
+</section>
+
+<section id="contenido" class="row">
+  <div class="home-img col-md-12 col-lg-6">
+    <img src="home-img.jpg" alt="...">
+    <br>
+    <p>Disfruta de la vista nocturna</p>
+    <p>La calle mas importante de Zürich</p>
+  </div>
+  <div class="lema col-md-12 col-lg-6">
+    <img src="lema.png" alt="..." width="95%">
+    <h2>Hotel Stillalp en Bahnhofstrasse, Zürich</h2>
+    <h2>Somos una empresa que se especializa en el servicio de hospedaje y atencion a clientes latinos, en los paraisos de Suiza. Estamos a tu servicio para que sientas la escencia de Bahnhofstrasse.</h2>
+  </div>
+</section>
+
+<section class="video row">
+  <div class="col-md-12 col-lg-4 d-flex align-items-center justify-content-center">
+    <h1 class="fs-md-2 fs-lg-1">Un vistazo a lo que te estas perdiendo...</h1>
+  </div>
+  <div class="col-md-12 col-lg-8 d-flex justify-content-center">
+    <div class="ratio ratio-16x9">
+      <iframe
+        [src]="video | domSeguro: 'https://www.youtube.com/embed/'"
+        title="YouTube video player" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<section id="cards">
+  <div class="row">
+    <div class="col-md-12 col-lg-4 mb-3 d-flex justify-content-center">
+      <div class="card">
+        <img src="homecards/homecard1.webp" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">Confort desde los interiores</h5>
+          <p class="card-text">Disfruta en todo momento con interiores confortables.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 col-lg-4 mb-3 d-flex justify-content-center">
+      <div class="card">
+        <img src="homecards/homecard2.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Arquitectura nórdica</h5>
+          <p class="card-text">Descubre la elegancia de la arquitectura nórdica: diseño minimalista, luz natural y confort en cada detalle.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-4 mb-3 d-flex justify-content-center">
+      <div class="card">
+        <img src="homecards/homecard3.jpeg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Vistas de primera</h5>
+          <p class="card-text">Al salir, al entrar, al comer, al dormir, siempre acompañado de la vista de las hermosas montañas de los paisajes suizos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

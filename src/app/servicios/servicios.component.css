@@ -1,0 +1,92 @@
+#servicios{
+  padding: 50px 15px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+h1 {  
+  text-align: center;
+  margin-bottom: 10px;
+  color: #143D60;
+  font-size: 60px;
+  font-family: "Oranienbaum", serif;
+  letter-spacing: 3px;
+}
+
+.card-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+  
+.card-icon svg {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  color: #A0C878; 
+}
+
+.servicio-card {
+  min-width: 90%;
+  max-width: 290px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.servicio-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+#contenido {
+  min-width: 90%;
+  max-width: 300px;
+  margin: 20px 0px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  background-color: #A0C878;
+}
+
+#contenido h1 {
+  padding: 10px;
+  color: white;
+  margin: 0;
+}
+
+#contenido img{
+  width: 80%;
+  border-radius: 10px;
+  margin: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#contenido img:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+#contenido p {
+  margin: 0;
+  text-align: center;
+  padding: 20px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: white;
+  font-size: 20px;
+}
+
+.container, .row, .col-12, .col-lg-6 {
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}

@@ -1,0 +1,162 @@
+.texto{
+    text-shadow: 2px 2px 5px rgb(0, 0, 0);
+    color: white;
+}
+
+.carousel-caption{
+    padding: 0px;
+}
+
+@media (max-width: 768px) {
+    .textoh1{
+        font-size: 30px;
+    }
+
+    .textop{
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .textoh1{
+        font-size: 20px;
+    }
+
+    .textop{
+        font-size: 10px;
+    }
+}
+
+#contenedor{
+    width: 100%;
+    position: relative;
+    padding: 10px;
+}
+
+#contenedor .carousel,
+.carousel-inner{
+    position: relative;
+}
+
+.carousel-item img{
+    border-radius: 10px;
+    max-height: 500px;
+    width: auto;
+}
+
+#contenido {
+    background-color: #f5f5f5;
+}
+
+.home-img,
+.lema{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+}
+
+.home-img img{
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-img{
+    background-color: #A0C878;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.lema img{
+    margin-top: 20px;
+}
+
+#contenido h2 {
+    font-size: 1.4rem;
+    margin: 20px 0;
+    font-weight: 500;
+}
+
+#contenido p {
+    font-size: 1rem;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    color: white;
+}
+
+.video{
+    background-color: #27667B;
+}
+
+.video h1{
+    font-family: "Oranienbaum", serif;
+    color: white;
+    margin: 20px;
+    text-align: justify;
+}
+
+.video iframe{
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video iframe:hover{
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.row {
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 40px 10px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+#cards .row{
+    background-color: #A0C878;
+}
+  
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 360px;
+    min-height: 400px;
+}
+  
+.card:hover,
+.home-img img:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.card-body {
+    padding: 20px;  
+}
+
+.card-title {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #444;
+    line-height: 1.5;
+    text-align: justify;
+}

@@ -1,0 +1,48 @@
+<div class="container">
+    <div style="display: flex; justify-content: center;">
+        <div class="descripcion">
+            <h1>Sobre el sitio web</h1>
+            <p>Este sitio fue desarrollado utilizando Angular como framework principal, 
+            haciendo uso de TypeScript para estructurar la lógica del lado del cliente, 
+            y HTML junto con CSS para construir y diseñar la interfaz de usuario.
+            Es importante mencionar que este proyecto abarca por el momento solo la parte del frontend.
+            </p>
+        
+            <div class="imgs row">
+                <div class="col-md-12 col-lg-3 d-flex justify-content-center">
+                    <img src="angularLogo.png" alt="...">
+                </div>
+                <div class="col-md-12 col-lg-3 d-flex justify-content-center">
+                    <img src="htmlLogo.png" alt="...">
+                </div>
+                <div class="col-md-12 col-lg-3 d-flex justify-content-center">
+                    <img src="cssLogo.png" alt="...">
+                </div>
+                <div class="col-md-12 col-lg-3 d-flex justify-content-center">
+                    <img src="typescriptLogo.png" alt="...">
+                </div>
+            </div>
+            <p>Proyecto escolar para la materia de Tecnologías Web</p>
+            <p>impartida por la maestra Georgina Salazar Partida</p>
+            <p>Universidad Autonoma de Aguascalientes</p>
+        </div>
+    </div>
+    
+    <div style="display: flex; justify-content: center; width: 100%;">
+        <div class="devs-info">
+            <h1>Developers</h1>
+            <div class="devs-img row">
+                <div class="col-12 col-lg-6 d-flex justify-content-center justify-content-lg-end">
+                    <a [routerLink]="['/dev', 350426]">
+                        <img [src]="imgRafa">
+                    </a>
+                </div>
+                <div class="col-12 col-lg-6 d-flex justify-content-center justify-content-lg-start">
+                    <a [routerLink]="['/dev', 347948]">
+                        <img [src]="imgCami">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+#busqueda {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    border: 1px solid #ccc;
+    border-radius: 80px;
+    background-color: #f5f5f5;
+    overflow: hidden; /* para redondear correctamente */
+}
+
+.icono-busqueda {
+    background-color: #C9E3F3;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #ccc;
+}
+
+.icono-busqueda svg {
+    color: #143D60;
+}
+
+#busqueda .form-control {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    font-weight: 500;
+    color: #143D60;
+    flex: 1;
+    font-size: 16px;
+    padding: 10px 20px;
+    outline: none;
+}

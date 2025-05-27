@@ -1,0 +1,74 @@
+<div class="tabla-container">
+  @if (reservas.length > 0) {
+    <h2>Reservaciones Registradas</h2>
+    <div class="tabla-responsive">
+    <table >
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Ingreso</th>
+          <th>Salida</th>
+          <th>Tipo</th>
+          <th>Personas</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (reserva of reservas; let i = $index; track reserva) {
+          <tr [ngStyle]="reserva.editando ? {'background-color': '#f0fff0'} : {}">
+            <td data-label="Nombre">
+              @if (reserva.editando) {
+                <input [(ngModel)]="reserva.nombre">
+              } @else {
+                {{ reserva.nombre }}
+              }
+            </td>
+            <td data-label="Ingreso">
+              @if (reserva.editando) {
+                <input type="date" [(ngModel)]="reserva.fechaIngreso">
+              } @else {
+                {{ reserva.fechaIngreso }}
+              }
+            </td>
+            <td data-label="Salida">
+              @if (reserva.editando) {
+                <input type="date" [(ngModel)]="reserva.fechaSalida">
+              } @else {
+                {{ reserva.fechaSalida }}
+              }
+            </td>
+            <td data-label="Tipo">
+              @if (reserva.editando) {
+                <input [(ngModel)]="reserva.tipoHab">
+              } @else {
+                {{ reserva.tipoHab }}
+              }
+            </td>
+            <td data-label="Personas">
+              @if (reserva.editando) {
+                <input type="number" [(ngModel)]="reserva.numPersonas">
+              } @else {
+                {{ reserva.numPersonas }}
+              }
+            </td>
+            <td data-label="Acciones">
+              <div class="enlinea">
+                @if (!reserva.editando) {
+                  <button (click)="editarReserva(reserva)"><mat-icon>edit</mat-icon></button>
+                } @else {
+                  <button (click)="guardarEdicion(reserva)" [disabled]="!reserva.numPersonas || !reserva.fechaSalida || !reserva.fechaIngreso || !reserva.nombre"><mat-icon>check</mat-icon></button>
+                  <button (click)="cancelarEdicion(reserva)"><mat-icon>close</mat-icon></button>
+                }
+                <button (click)="eliminarReserva(i)" class="eliminar"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    </div>
+  } @else {
+    <p>No hay reservaciones registradas.</p>
+  }
+</div>

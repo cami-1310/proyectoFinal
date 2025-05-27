@@ -1,0 +1,32 @@
+.header{
+    color: #143D60;
+}
+
+h1{
+    word-break: break-word;
+    font-size: 50px;
+    font-family: "Oranienbaum", serif;
+    text-align: center;
+    margin: 30px 0px;
+}
+
+.act{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    color: #A0C878;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.act p{
+    color: #143D60;
+    margin-top: 16px;
+}
+
+.act:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}

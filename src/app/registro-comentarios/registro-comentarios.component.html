@@ -1,0 +1,64 @@
+<div class="tabla-container">
+  @if (comentarios.length > 0) {
+    <h2>Comentarios Registrados</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Nacionalidad</th>
+          <th>Mensaje</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (comentario of comentarios; let i = $index; track comentario) {
+          <tr [ngStyle]="comentario.editando ? {'background-color': '#f0fff0'} : {}">
+            <td data-label="Nombre">
+              @if (comentario.editando) {
+                <input matInput [(ngModel)]="comentario.nombre" required>
+              } @else {
+                <span>{{ comentario.nombre }}</span>
+              }
+            </td >
+            <td style="width: 280px;" data-label="Email">
+              @if (comentario.editando) {
+                <input [(ngModel)]="comentario.email" required style="width: 260px;">
+              } @else {
+                <span>{{ comentario.email }}</span>
+              }
+            </td>
+            <td data-label="Nacionalidad">
+              @if (comentario.editando) {
+                <input [(ngModel)]="comentario.nacionalidad" required>
+              } @else {
+                <span>{{ comentario.nacionalidad }}</span>
+              }
+            </td >
+            <td style="width: 340px;"data-label="Mensaje">
+              @if (comentario.editando) {
+                  <textarea [(ngModel)]="comentario.mensaje" required style="width: 320px; resize: none;"></textarea>
+              } @else {
+                <span style="word-break: break-word;">{{ comentario.mensaje }}</span>
+              }
+            </td>
+            <td data-label="Acciones">
+              <div class="enlinea">
+                @if (!comentario.editando) {
+                  <button (click)="editarComentario(comentario)"><mat-icon>edit</mat-icon></button>
+                } @else {
+                  <button (click)="guardarEdicion(comentario)" [disabled]="!comentario.nombre || !comentario.email || !comentario.nacionalidad || !comentario.mensaje"><mat-icon>check</mat-icon></button>
+                  <button (click)="cancelarEdicion(comentario)"><mat-icon>close</mat-icon></button>
+                }
+                <button (click)="eliminarComentario(i)" class="eliminar"><mat-icon>delete</mat-icon></button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <p>No hay comentarios registrados.</p>
+  }
+</div>

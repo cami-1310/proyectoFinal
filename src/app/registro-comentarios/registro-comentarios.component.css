@@ -1,0 +1,135 @@
+@media (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+    width: 100%;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  td {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 0;
+    border: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #143D60;
+    margin-bottom: 4px;
+  }
+
+  .enlinea {
+    flex-direction: row; 
+  }
+}
+
+
+/*----------------------------*/
+
+.tabla-container {
+  margin: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tabla-container h2 {
+  color: #143D60;
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  text-align: left;
+}
+
+th, td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+th {
+  background-color: #A0C878;
+  color: white;
+  font-weight: 500;
+}
+
+td input {
+  width: 180px;
+}
+
+td input, td textarea {
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 5px;
+}
+
+p {
+  font-size: 1.1rem;
+  color: #143D60;
+}
+
+button {
+  background-color:  #143D60;; 
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  margin: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #8bb85e; 
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button.eliminar {
+  background-color: #D9534F; 
+}
+
+button.eliminar:hover {
+  background-color: #c9302c;
+}
+
+.enlinea{
+  display: flex;
+  flex-direction: row;
+  gap: 6px; 
+  align-items: flex-start; 
+}

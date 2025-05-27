@@ -1,0 +1,5 @@
+<div class="barra">
+    <p>Ingresa alguna actividad o el nombre de alguna ciudad para descubrir qué actividades ofrece...</p>
+    <app-barra-busqueda (buscarEvent)="recibirBusqueda($event)"></app-barra-busqueda>
+</div>
+<app-vista-api [termino]="terminoBusqueda"></app-vista-api>

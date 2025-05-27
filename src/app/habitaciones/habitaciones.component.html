@@ -1,0 +1,106 @@
+<div style="display: flex; flex-direction: column; justify-content: center; margin: 10px 0px;">
+  <div style="display: flex; justify-content: center; align-items: center;">
+    <div class="contenedorCabs row">
+      @for (habitacion of habitaciones; track habitacion ; let i=$index) {
+        <div class="col-12 col-lg-6 d-flex justify-content-center">
+            <div class="card text-bg-dark m-3 card-cab" (click)="openModal(habitacion,i)">
+                <img [src]="habitacion.pathImg" class="card-img" alt="...">
+                <div class="card-img-overlay d-flex justify-content-center align-items-center">
+                <h5 class="card-title" [innerHTML]="habitacion.tipo"></h5>
+                </div>
+            </div>
+        </div>
+      }
+    </div>
+  </div>
+  
+  <div style="display: flex; justify-content: center; align-items: center;">
+    <div class="contenedor">
+      <h1>Todas las habitaciones cuentan con: </h1>
+      <div class="card-group">
+        <div class="card">
+          <img src="habs/baño.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Baño</h5>
+            <p class="card-text">Disfruta de un baño privado, con bañera y regadera, con acabados en madera natural y vistas relajantes a los bosques alpinos. Ideal para revitalizarte tras un día en la nieve.</p>
+          </div>
+        </div>
+        <div class="card"> 
+          <img src="habs/sala.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Sala</h5>
+            <p class="card-text">Un espacio cálido con chimenea tradicional y ventanales amplios que enmarcan paisajes montañosos. Perfecta para relajarte con una taza de chocolate caliente.</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="habs/cocina.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Cocina</h5>
+            <p class="card-text">Cocina rústica y completamente equipada, donde puedes preparar cualquier platillo si decides cocinar (recuerda que tambien hay restaurante), todo en un entorno encantador y acogedor.</p>
+          </div>
+        </div>
+      </div>
+      <a [routerLink]="['/reservar']">
+        <button class="btn btn-reservar">Reservar</button>
+      </a>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="contModal" tabindex="-1" aria-labelledby="imgModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          @switch (indiceHabitacion) {
+            @case (0) {
+              @if (habitacionSeleccionada) {
+                <!-- Carrusel hab 1 -->
+                <app-carousel [imagenes]="habitacionSeleccionada.galeria || []" [idCarousel]="'carouselHab0'"></app-carousel>
+              }
+            }
+  
+            @case (1) {
+              @if (habitacionSeleccionada) {
+                <!-- Carrusel hab 1 -->
+                <app-carousel [imagenes]="habitacionSeleccionada.galeria || []" [idCarousel]="'carouselHab1'"></app-carousel>
+              }
+            }
+  
+            @case (2) {
+              @if (habitacionSeleccionada) {
+                <!-- Carrusel hab 1 -->
+                <app-carousel [imagenes]="habitacionSeleccionada.galeria || []" [idCarousel]="'carouselHab2'"></app-carousel>
+              }
+            }
+  
+            @case (3) {
+              @if (habitacionSeleccionada) {
+                <!-- Carrusel hab 1 -->
+                <app-carousel [imagenes]="habitacionSeleccionada.galeria || []" [idCarousel]="'carouselHab3'"></app-carousel>
+              }
+            }
+          }
+  
+          @if (habitacionSeleccionada) {
+            <div class="contenido">
+              <h5>{{habitacionSeleccionada.tipo}}</h5>
+              <p>{{habitacionSeleccionada.descripcion}}</p>
+              <hr>
+              <div class="especificaciones">
+                <ul class="list-unstyled">
+                    <li><strong>Recámaras:</strong> {{ habitacionSeleccionada.noRecamaras }}</li>
+                    <li><strong>Camas:</strong> {{ habitacionSeleccionada.noCamas }} ({{ habitacionSeleccionada.tipoCama }})</li>
+                    <li><strong>Personas:</strong> {{ habitacionSeleccionada.noPersonas }}</li>
+                    <li><strong>Baños:</strong> {{ habitacionSeleccionada.noBanos }}</li>
+                </ul>
+              </div>
+              <hr>
+              <a [routerLink]="['/reservar']" class="a-modal">
+                <button class="btn btn-reservar-modal" (click)="closeModal()">Reservar</button>
+              </a>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
+            <div class="mensaje m-3">
+                <img src="cab.png" alt="...">
+                <h1>¡Gracias por reservar con nosotros!</h1>
+                <br>
+                <h4>Haremos lo posible para que tu estancia sea inolvidable.</h4>
+            </div>
+        </div>
+    
+        <div class="col-12 col-lg-6">
+            <div class="contenedor m-3">
+                <form [formGroup]="form" (ngSubmit)="enviarFormulario()">
+                    <!-- Nombre -->
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingInput0" formControlName="nombre">
+                        <label for="floatingInput0">Nombre del titular de la reservación</label>
+                        @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
+                            @if (form.get('nombre')?.hasError('required')) {
+                                <div class="msj">El nombre es obligatorio.</div>
+                            }
+                            @if (form.get('nombre')?.hasError('pattern')) {
+                                <div class="msj">Solo se permiten letras y espacios. Sin caracteres especiales ni números.</div>
+                            }
+                        }
+                    </div>
+        
+                    <!-- Fecha de llegada -->
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" id="floatingInput1" formControlName="fechaIngreso">
+                        <label for="floatingInput1">Fecha de llegada</label>
+                        @if (form.get('fechaIngreso')?.invalid && form.get('fechaIngreso')?.touched) {
+                            @if (form.get('fechaIngreso')?.hasError('required')) {
+                                <div class="msj">La fecha de llegada es obligatoria.</div>
+                            }
+                        }
+                        @if (form.errors?.['fechaPasada']) {
+                            <div class="msj">Tu fecha de llegada debe ser posterior a la de hoy.</div>
+                        }
+                    </div>
+        
+                    <!-- Fecha de salida -->
+                    <div class="form-floating mb-3">
+                        <input type="date" class="form-control" id="floatingInput2" formControlName="fechaSalida">
+                        <label for="floatingInput2">Fecha de salida</label>
+                        @if (form.get('fechaSalida')?.invalid && form.get('fechaSalida')?.touched) {
+                            @if (form.get('fechaSalida')?.hasError('required')) {
+                                <div class="msj">La fecha de salida es obligatoria.</div>
+                            }
+                        }
+                        @if (form.errors?.['fechasInvalidas']) {
+                            <div class="msj">La fecha de salida debe ser posterior a la fecha de llegada.</div>
+                        }
+                        @if (form.errors?.['estanciaInvalida']) {
+                            <div class="msj">Tu estancia debe ser de al menos 1 dia.</div>
+                        }
+                    </div>
+        
+                    <!-- Tipo de habitación -->
+                    <div class="form-control mb-3">
+                        <label class="form-label">Tipo de habitación:</label>
+        
+                        @for (tipo of tiposHabitacion; track tipo) {
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" [value]="tipo" formControlName="tipoHab" [id]="tipo">
+                                <label class="form-check-label" [for]="tipo">{{ tipo }}</label>
+                            </div>
+                        }
+        
+                        @if (form.get('tipoHab')?.hasError('required')) {
+                            <div class="msj">Debes seleccionar un tipo de habitación.</div>
+                        }
+                    </div>
+        
+                    <!-- Número de personas -->
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="floatingInput3" formControlName="numPersonas" min="1">
+                        <label for="floatingInput3">Número de personas</label>
+                        @if (form.get('numPersonas')?.invalid && form.get('numPersonas')?.touched) {
+                            @if (form.get('numPersonas')?.hasError('required')) {
+                                <div class="msj">Este campo es obligatorio.</div>
+                            }
+                            @if (form.get('numPersonas')?.hasError('min')) {
+                                <div class="msj">Debe ser al menos 1 persona.</div>
+                            }
+                        }
+                        @if (form.errors?.['maxPorTipo']) {
+                            <div class="msj">En esta cabaña solo pueden hospedarse {{ form.errors?.['maxPorTipo'] }} personas como máximo.</div>
+                        }
+                    </div>
+                    <button class="btn-enviar" type="submit" [disabled]="form.invalid">Crear reservación</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

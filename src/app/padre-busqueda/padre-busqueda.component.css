@@ -1,0 +1,13 @@
+.barra{
+    width: 100%;
+    text-align: center;
+    margin: 20px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+app-barra-busqueda{
+    width: 100%;
+}

@@ -1,0 +1,60 @@
+.links{
+    gap: 10px;
+}
+
+.links a{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+}
+
+.links a span{
+    display: inline-block;
+    margin: 5px;
+}
+
+.links a span,
+.links a svg{
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.links a:hover span,
+.links a:hover svg{
+    color: #27667B;
+    transform: scale(1.1);
+}
+
+.nav-item{
+    text-align: left;
+    width: 100%;
+}
+
+.btn-format{
+    background-color: #27667B;
+    color: white;
+    padding: 5px;
+    width: 110px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-format:hover{
+    background-color: #A0C878;
+}
+
+.btn-logout{
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.btn-logout svg{
+    color: white;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.btn-logout svg:hover{
+    color: #27667B;
+    transform: scale(1.1);
+}
