@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-reservar',
   standalone:true,
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class ReservarComponent {
   form: FormGroup;
+  
   datos=JSON.parse(localStorage.getItem('datosReserva') || '[]');
   tiposHabitacion = ['Cabaña sencilla', 'Cabaña doble', 'Cabaña triple', 'Cabaña familiar'];
 
