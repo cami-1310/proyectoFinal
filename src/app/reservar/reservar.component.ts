@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
+import { PaypalComponent } from '../paypal/paypal.component';
 
 @Component({
   selector: 'app-reservar',
   standalone:true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, PaypalComponent],
   templateUrl: './reservar.component.html',
   styleUrl: './reservar.component.css'
 })
