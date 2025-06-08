@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { FirestoreService } from '../firestore.service';
 
 @Component({
   selector: 'app-reservar',
@@ -11,10 +12,9 @@ import Swal from 'sweetalert2';
 })
 export class ReservarComponent {
   form: FormGroup;
-  datos=JSON.parse(localStorage.getItem('datosReserva') || '[]');
   tiposHabitacion = ['Cabaña sencilla', 'Cabaña doble', 'Cabaña triple', 'Cabaña familiar'];
 
-  constructor(private fb: FormBuilder){
+  constructor(private fb: FormBuilder, private firestoreService: FirestoreService){
     this.form=this.fb.group({
       nombre: ['', [Validators.required, Validators.pattern("^[A-Za-zÁÉÍÓÚÑáéíóúñ]+(?: [A-Za-zÁÉÍÓÚÑáéíóúñ]+)*$")]],
       fechaIngreso: ['', Validators.required],
@@ -84,16 +84,19 @@ export class ReservarComponent {
 
   enviarFormulario() {
     if (this.form.valid) {
-      const datosForm = this.form.value;
-      this.datos.push(datosForm);
-      localStorage.setItem('datosReserva', JSON.stringify(this.datos)); 
-      this.form.reset();
+      this.firestoreService.add('formReservas', this.form.value);
 
       Swal.fire({
         title: "Reservacion lista!",
         text: "Datos guardados con exito",
         icon: "success"
       });
+
+      this.form.reset(); // limpia campos
+      //luego para que no nos salgan errores iniciales 
+      this.form.markAsPristine(); // indica que no ha sido modificado
+      this.form.markAsUntouched(); // indica que no ha sido tocado
+      this.form.updateValueAndValidity(); // recalcula validaciones
     }
   }
 }

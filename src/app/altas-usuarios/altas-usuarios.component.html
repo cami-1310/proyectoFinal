@@ -1,0 +1,81 @@
+<div class="container d-flex flex-column justify-content-center align-items-center">
+    <mat-icon>person_add</mat-icon>
+
+    <h3>Regístrate</h3>
+
+    <div [formGroup]="registroForm" class="d-flex flex-column justify-content-center align-items-center">
+        <mat-form-field>
+            <mat-label class="label-custom">Nombre completo</mat-label>
+            <input matInput required formControlName="nombreCompleto">
+            <mat-error>
+                @if (registroForm.get('nombreCompleto')?.hasError('required')) {
+                    El nombre es obligatorio
+                }
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label class="label-custom">Nombre de usuario</mat-label>
+            <input matInput required formControlName="username">
+            <mat-error>
+                @if (registroForm.get('username')?.hasError('required')) {
+                    El nombre de usuario es obligatorio
+                }
+            </mat-error>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label class="label-custom">Correo electronico</mat-label>
+            <input matInput required formControlName="email">
+            <mat-error>
+                @if (registroForm.get('email')?.hasError('required')) {
+                    El correo es obligatorio
+                } @else if (registroForm.get('email')?.hasError('email')) {
+                    El correo no tiene un formato válido
+                }
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label class="label-custom">Numero de telefono</mat-label>
+            <input matInput type="number" required formControlName="phoneNum">
+            <mat-error>
+                @if (registroForm.get('phoneNum')?.hasError('required')) {
+                    El número de teléfono es obligatorio
+                } @else if (registroForm.get('phoneNum')?.hasError('pattern')) {
+                    El número debe tener exactamente 10 dígitos
+                }
+            </mat-error>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label class="label-custom">Contraseña</mat-label>
+            <input matInput type="password" required formControlName="password">
+            <mat-error>
+                @if (registroForm.get('password')?.hasError('required')) {
+                    La contraseña es obligatoria
+                } @else if (registroForm.get('password')?.hasError('minlength')) {
+                    Debe tener al menos 8 caracteres
+                } @else if (registroForm.get('password')?.hasError('maxlength')) {
+                    No puede tener más de 16 caracteres
+                } @else if (registroForm.get('password')?.hasError('pattern')) {
+                    Debe tener al menos una mayúscula, un número, o _.
+                }
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label class="label-custom">Confirma tu contraseña</mat-label>
+            <input matInput type="password" required formControlName="confirmPassword">
+            <mat-error>
+                @if (registroForm.get('confirmPassword')?.hasError('required')) {
+                    Debes confirmar la contraseña
+                } @else if (registroForm.get('confirmPassword')?.hasError('passwordsMismatch')) {
+                    Las contraseñas no coinciden
+                }
+            </mat-error>
+        </mat-form-field>
+    
+        <button mat-flat-button class="button" (click)="guardarDatos()">Registrarme</button>
+    </div>    
+</div>
