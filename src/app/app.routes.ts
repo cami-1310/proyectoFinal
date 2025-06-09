@@ -11,6 +11,8 @@ import { DevsComponent } from './devs/devs.component';
 import { DevComponent } from './dev/dev.component';
 import { DestinosComponent } from './destinos/destinos.component';
 import { SwitchLocalComponent } from './switch-local/switch-local.component';
+import { MisReservasComponent } from './mis-reservas/mis-reservas.component';
+import { AltasUsuariosComponent } from './altas-usuarios/altas-usuarios.component';
 
 export const routes: Routes = [
     {path: 'home', component: HomeComponent},
@@ -24,6 +26,8 @@ export const routes: Routes = [
     {path: 'sobreSitio', component: DevsComponent},
     {path: 'dev/:id', component: DevComponent},
     {path: 'destinos', component: DestinosComponent},
-    {path: 'switch',component:SwitchLocalComponent},
+    {path: 'switch', component:SwitchLocalComponent},
+    {path: 'misReservas',component: MisReservasComponent},
+    {path: 'altas', component: AltasUsuariosComponent},
     {path: '**', pathMatch: 'full', redirectTo: 'home'}
 ];

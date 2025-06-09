@@ -36,16 +36,3 @@ mat-form-field,
 .button:hover{
     background-color: #A0C878 !important;
 }
-
-p{
-    margin: 0;
-}
-
-a{
-    margin-bottom: 15px;
-    transition: transform 0.3s ease;
-}
-
-a:hover{
-    transform: scale(1.1);
-}
