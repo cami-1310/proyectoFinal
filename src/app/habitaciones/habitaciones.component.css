@@ -25,29 +25,15 @@
 h5{
     font-size: 35px;
 }
-
-.card-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    padding: 20px;
-    margin: 0 auto;
-}
   
 .card {
     background-color: #fff;
     border-radius: 10px;
     border: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    flex: 1 1 300px;
 }
 
-.contenedor .card{
-    max-width: 360px;
-}
   
 .card:hover,
 .home-img img:hover,
