@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
 import Swal from 'sweetalert2';
 import { FirestoreService } from '../firestore.service';
-
+import { QRCodeComponent } from 'angularx-qrcode';
 import { PaypalComponent } from '../paypal/paypal.component';
 
 @Component({
   selector: 'app-reservar',
   standalone:true,
-  imports: [ReactiveFormsModule, PaypalComponent],
+  imports: [ReactiveFormsModule, PaypalComponent,QRCodeComponent],
   templateUrl: './reservar.component.html',
   styleUrl: './reservar.component.css'
 })
@@ -88,11 +88,7 @@ export class ReservarComponent {
     if (this.form.valid) {
       this.firestoreService.add('formReservas', this.form.value);
 
-      Swal.fire({
-        title: "Reservacion lista!",
-        text: "Datos guardados con exito",
-        icon: "success"
-      });
+      
 
       this.form.reset(); // limpia campos
       //luego para que no nos salgan errores iniciales 

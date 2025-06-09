@@ -46,6 +46,12 @@
           </a>
         </li>
 
+        @if(username){
+          <li class="nav-item">
+            <a [routerLink]="['/misReservas']" class="nav-link">Mis reservas</a>
+          </li>
+        }
+        
         <li class="nav-item">
           <a [routerLink]="['/destinos']" class="nav-link">
             <!-- SVG aquí -->
