@@ -1,92 +1,155 @@
 <nav class="navbar navbar-expand-lg">
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-start" aria-controls="navbar-start" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar-start">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 links">
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/home']">
-                        <span>Inicio</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/servicios']">
-                        <span>Servicios</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/habs']">
-                        <span>Cabañas</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['/contacto']">
-                        <span>Contacto</span>
-                    </a>
-                </li>
-                <a class="nav-link" [routerLink]="['/reservar']">
-                    <button class="btn btn-format">Reservar</button>
-                </a>
-                <a class="nav-link" [routerLink]="['/misReservas']">
-                    <span>Mis reservas</span>
-                </a>
-                <a [routerLink]="['/destinos']" class="nav-link">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="40"
-                        height="40"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        >
-                        <path d="M11 18l-2 -1l-6 3v-13l6 -3l6 3l6 -3v7.5" />
-                        <path d="M9 4v13" />
-                        <path d="M15 7v5" />
-                        <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                        <path d="M20.2 20.2l1.8 1.8" />
-                    </svg>
-                </a>
+  <div class="container">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbar-start"
+      aria-controls="navbar-start"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-start">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 links">
 
-                @if(username){
-                    <a [routerLink]="['/switch']" class="admin nav-link">
-                        <button class="btn btn-format" >{{username}}</button>
-                    </a>
-                    <button class="btn-logout" (click)="salir()">
-                        <svg xmlns="http://www.w3.org/2000/svg" 
-                            viewBox="0 0 24 24" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            stroke-linecap="round" 
-                            stroke-linejoin="round" 
-                            width="40" 
-                            height="40" 
-                            stroke-width="1" > 
-                            <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path> 
-                            <path d="M9 12h12l-3 -3"></path> 
-                            <path d="M18 15l3 -3"></path> 
-                        </svg> 
-                    </button>
-                } @else {
-                    <a [routerLink]="['/login']" class="nav-link">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="40"
-                            height="40"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1"
-                            stroke-linecap="round"
-                            stroke-linejoin="round" >
-                            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                            <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                        </svg>
-                    </a>
-                }
-            </ul>
-        </div>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/home']">
+            <span>Inicio</span>
+          </a>
+        </li>
+
+
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/servicios']">
+            <span>Servicios</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/habs']">
+            <span>Cabañas</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/contacto']">
+            <span>Contacto</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/reservar']">
+            <button class="btn btn-format">Reservar</button>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a [routerLink]="['/destinos']" class="nav-link">
+            <!-- SVG aquí -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M11 18l-2 -1l-6 3v-13l6 -3l6 3l6 -3v7.5" />
+              <path d="M9 4v13" />
+              <path d="M15 7v5" />
+              <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+              <path d="M20.2 20.2l1.8 1.8" />
+            </svg>
+          </a>
+        </li>
+
+        @if(username){
+        <li class="nav-item admin">
+          <a [routerLink]="['/switch']" class="nav-link">
+            <button class="btn btn-format">{{ username }}</button>
+          </a>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-logout" (click)="salir()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              width="40"
+              height="40"
+              stroke-width="1"
+            >
+              <path
+                d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"
+              ></path>
+              <path d="M9 12h12l-3 -3"></path>
+              <path d="M18 15l3 -3"></path>
+            </svg>
+          </button>
+        </li>
+        } @else {
+        <li class="nav-item">
+          <a [routerLink]="['/login']" class="nav-link">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+              <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+            </svg>
+          </a>
+        </li>
+        }
+        <li class="nav-item" >
+          <button class="btn btn-format1" (click)="mostrarPanel = !mostrarPanel">
+          <a class="nav-link">
+            <span>Accesibilidad </span>
+          </a>
+          </button>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
+
+@if (mostrarPanel) {
+  <div class="position-absolute  border rounded p-3 shadow panel-accesibilidad" style="top: 60px; right: 20px; z-index: 1050; min-width: 250px; background-color:   #ffffffcb;">
+    <h5 class="mb-3">Opciones de Accesibilidad</h5>
+
+    <div class="d-flex flex-wrap gap-2 mb-2">
+      <button class="btn btn-primary btn-sm" (click)="leerPantalla()">Leer</button>
+      <button class="btn btn-primary btn-sm" (click)="pausarLectura()">Pausar</button>
+      <button class="btn btn-primary btn-sm" (click)="ContinuarLectura()">Continuar</button>
+      <button class="btn btn-primary btn-sm" (click)="detenerLectura()">Detener</button>
+    </div>
+
+    <div class="mb-2">
+      <button class="btn btn-outline-secondary btn-sm" (click)="cambiarContraste()">
+        {{ contrasteActivo ? 'Quitar contraste' : 'Contraste' }}
+      </button>
+    </div>
+
+    <div class="d-flex gap-2 mb-2">
+      <button class="btn btn-outline-secondary btn-sm" (click)="cambiarTamanoTexto('aumentar')">A+</button>
+      <button class="btn btn-outline-secondary btn-sm" (click)="cambiarTamanoTexto('disminuir')">A-</button>
+    </div>
+
+    <button class="btn btn-outline-secondary btn-sm w-100" (click)="cambiarFuente()">Cambiar fuente</button>
+  </div>
+}
