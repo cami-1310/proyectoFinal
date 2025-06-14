@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import Swal from 'sweetalert2';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../firestore.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contacto',
@@ -43,23 +43,25 @@ export class ContactoComponent {
       return;
     }
 
-    this.firestoreService.add('formContacto', this.formData);
-
-    Swal.fire({
-      icon: 'success',
-      title: 'Comentario enviado',
-      text: 'Gracias por tu mensaje:)'
+    this.firestoreService.add('formContacto', this.formData).subscribe({
+      next: (response) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Comentario enviado',
+          text: 'Gracias por tu mensaje:)'
+        });
+    
+        //resetear el form
+        //primero el objeto
+        this.formData = {
+          nombre: '',
+          email: '',
+          nacionalidad: '',
+          mensaje: ''
+        };
+    
+        form.resetForm(this.formData);
+      }
     });
-
-    //resetear el form
-    //primero el objeto
-    this.formData = {
-      nombre: '',
-      email: '',
-      nacionalidad: '',
-      mensaje: ''
-    };
-
-    form.resetForm(this.formData);
   }
 }

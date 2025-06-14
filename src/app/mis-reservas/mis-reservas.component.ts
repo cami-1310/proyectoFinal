@@ -1,11 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FirestoreService } from '../firestore.service';
-import { collection, CollectionReference, DocumentData } from 'firebase/firestore';
 import { LoginService } from '../login.service';
 import { QRCodeComponent } from 'angularx-qrcode';
-
-
 
 @Component({
   selector: 'app-mis-reservas',
@@ -23,14 +20,17 @@ export class MisReservasComponent {
     }
   }
   
-  async cargarReservas() {
-    this.reservas = await this.firestoreService.getWhere('formReservas',[{fieldPath:'nombre', opStr: '==', value: this.loginService.username }]);
+  cargarReservas() {
+    this.firestoreService.getWhere('formReservas',[
+      {fieldPath:'nombre', opStr: '==', value: this.loginService.username }
+    ]).subscribe({
+      next: (reservas) => {
+        this.reservas = reservas;
+      }
+    });
   }
 
   ngOnInit() {
     this.cargarReservas();
   }
-
-  
-
 }

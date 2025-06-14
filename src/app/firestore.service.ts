@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { collection, getDocs, addDoc, deleteDoc, doc, DocumentData, QueryFieldFilterConstraint, where, query } from 'firebase/firestore';
-import { db } from '../app/firebase.config';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 interface QueryCondition {
   fieldPath: string;
@@ -12,29 +12,31 @@ interface QueryCondition {
   providedIn: 'root'
 })
 export class FirestoreService {
+  apiURL='http://localhost:3000/api';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   //leer todo
-  async getAll(collectionName: string){
-    const colRef = collection(db, collectionName);
-    const snapshot = await getDocs(colRef);
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  getAll(collectionName: string): Observable<any[]>{
+    return this.http.get<any[]>(`${this.apiURL}/${collectionName}`);
   }
 
   //altas
-  async add(collectionName: string, data: any) {
-    const colRef = collection(db, collectionName);
-    const docRef = await addDoc(colRef, data);
-    return docRef.id;
+  add(collectionName: string, data: any): Observable<{ id: string }>{
+    return this.http.post<{ id: string }>(`${this.apiURL}/${collectionName}`, data);
   }
 
   //bajas
-  async delete(collectionName: string, id: string) {
-    const docRef = doc(db, collectionName, id);
-    await deleteDoc(docRef);
+  delete(collectionName: string, id: string): Observable<any>{
+    return this.http.delete<any>(`${this.apiURL}/${collectionName}/${id}`);
   }
 
+  //consulta condicional
+  getWhere(collectionName: string, conditions: QueryCondition[]): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiURL}/query/${collectionName}`, { conditions });
+  }
+
+  /*
   async getWhere(collectionName: string, conditions: QueryCondition[]): Promise<DocumentData[]> {
     const colRef = collection(db, collectionName);
 
@@ -53,5 +55,5 @@ export class FirestoreService {
 
     const snapshot = await getDocs(q);
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  }
+  }*/
 }

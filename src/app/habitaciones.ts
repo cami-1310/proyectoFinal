@@ -3,6 +3,7 @@ import { Habitacion } from "./habitacion";
 export const Habitaciones:Habitacion[]=[
     {
         tipo: "Cabaña Sencilla",
+        costo: 1200,
         noRecamaras: 1,
         noCamas: 1,
         tipoCama: "Matrimonial",
@@ -14,6 +15,7 @@ export const Habitaciones:Habitacion[]=[
     },
     {
         tipo: "Cabaña Doble",
+        costo: 2000,
         noRecamaras: 2,
         noCamas: 2,
         tipoCama: "Matrimonial",
@@ -25,6 +27,7 @@ export const Habitaciones:Habitacion[]=[
     },
     {
         tipo: "Cabaña Triple",
+        costo: 3500,
         noRecamaras: 1,
         noCamas: 3,
         tipoCama: "Individual",
@@ -36,6 +39,7 @@ export const Habitaciones:Habitacion[]=[
     },
     {
         tipo: "Cabaña Familiar",
+        costo: 4000,
         noRecamaras: 2,
         noCamas: 4,
         tipoCama: "Matrimonial",

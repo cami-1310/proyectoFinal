@@ -11,6 +11,7 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbar-start">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 links">
 
@@ -19,8 +20,6 @@
             <span>Inicio</span>
           </a>
         </li>
-
-
 
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/servicios']">
@@ -34,27 +33,91 @@
           </a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/contacto']">
-            <span>Contacto</span>
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/reservar']">
-            <button class="btn btn-format">Reservar</button>
-          </a>
-        </li>
-
         @if(username){
+          <!-- si hay username le deja ver los forms -->
           <li class="nav-item">
-            <a [routerLink]="['/misReservas']" class="nav-link">Mis reservas</a>
+            <a class="nav-link" [routerLink]="['/contacto']">
+              <span>Contacto</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/reservar']">
+              <button class="btn btn-format">Reservar</button>
+            </a>
+          </li>
+
+          <!-- muestra la info de quien este logueado -->
+          <li class="nav-item admin">
+            <!-- ajustando funcionaliad del boton de usuario segun tipoUsuario-->
+            @if(tipoUsuario=='admin'){
+              <a [routerLink]="['/switch']" class="nav-link">
+                <button class="btn btn-format">{{ username }}</button>
+              </a>
+            } @else if (tipoUsuario=='user') {
+              <a [routerLink]="['/misReservas']" class="nav-link">
+                <button class="btn btn-format">{{ username }}</button>
+              </a>
+            }
+          </li>
+
+          <li class="nav-item">
+            <button class="btn btn-logout nav-link" (click)="salir()">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="40"
+                height="40"
+                stroke-width="1"
+              >
+                <path
+                  d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"
+                ></path>
+                <path d="M9 12h12l-3 -3"></path>
+                <path d="M18 15l3 -3"></path>
+              </svg>
+            </button>
+          </li>
+        } @else {
+          <!-- si no hsy username, es porque no esta logueado, entonces lo manda a loguearse -->
+          <li class="nav-item">
+            <a class="nav-link" (click)="avisarLogin()">
+              <span>Contacto</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <div class="nav-link">
+              <button class="btn btn-format" (click)="avisarLogin()">Reservar</button>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a [routerLink]="['/login']" class="nav-link">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+              </svg>
+            </a>
           </li>
         }
-        
+
         <li class="nav-item">
           <a [routerLink]="['/destinos']" class="nav-link">
-            <!-- SVG aquí -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="40"
@@ -74,59 +137,26 @@
             </svg>
           </a>
         </li>
-
-        @if(username){
-        <li class="nav-item admin">
-          <a [routerLink]="['/switch']" class="nav-link">
-            <button class="btn btn-format">{{ username }}</button>
-          </a>
-        </li>
+        
         <li class="nav-item">
-          <button class="btn btn-logout" (click)="salir()">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              width="40"
-              height="40"
-              stroke-width="1"
+          <button class="btn btn-accesibility nav-link" (click)="mostrarPanel = !mostrarPanel">
+            <svg  
+              xmlns="http://www.w3.org/2000/svg"  
+              width="40"  
+              height="40"  
+              viewBox="0 0 24 24"  
+              fill="none"  
+              stroke="currentColor"  
+              stroke-width="1"  
+              stroke-linecap="round"  
+              stroke-linejoin="round"  
+              class="icon icon-tabler icons-tabler-outline icon-tabler-accessible"
             >
-              <path
-                d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"
-              ></path>
-              <path d="M9 12h12l-3 -3"></path>
-              <path d="M18 15l3 -3"></path>
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+              <path d="M10 16.5l2 -3l2 3m-2 -3v-2l3 -1m-6 0l3 1" />
+              <circle cx="12" cy="7.5" r=".5" fill="currentColor" />
             </svg>
-          </button>
-        </li>
-        } @else {
-        <li class="nav-item">
-          <a [routerLink]="['/login']" class="nav-link">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="40"
-              height="40"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-              <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-            </svg>
-          </a>
-        </li>
-        }
-        <li class="nav-item" >
-          <button class="btn btn-format1" (click)="mostrarPanel = !mostrarPanel">
-          <a class="nav-link">
-            <span>Accesibilidad </span>
-          </a>
           </button>
         </li>
       </ul>

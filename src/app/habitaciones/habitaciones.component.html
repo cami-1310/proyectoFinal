@@ -48,9 +48,14 @@
           </div>
         </div>
       </div>
-      <a [routerLink]="['/reservar']">
-        <button class="btn btn-reservar">Reservar</button>
-      </a>
+
+      @if(username){
+        <a [routerLink]="['/reservar']">
+          <button class="btn btn-reservar">Reservar</button>
+        </a>
+      } @else {
+        <button class="btn btn-reservar" (click)="avisarLogin()">Reservar</button>
+      }
     </div>
   </div>
   
@@ -95,6 +100,7 @@
               <hr>
               <div class="especificaciones">
                 <ul class="list-unstyled">
+                    <li><strong>Costo:</strong> ${{ habitacionSeleccionada.costo }}.00</li>
                     <li><strong>Recámaras:</strong> {{ habitacionSeleccionada.noRecamaras }}</li>
                     <li><strong>Camas:</strong> {{ habitacionSeleccionada.noCamas }} ({{ habitacionSeleccionada.tipoCama }})</li>
                     <li><strong>Personas:</strong> {{ habitacionSeleccionada.noPersonas }}</li>
@@ -102,9 +108,15 @@
                 </ul>
               </div>
               <hr>
-              <a [routerLink]="['/reservar']" class="a-modal">
-                <button class="btn btn-reservar-modal" (click)="closeModal()">Reservar</button>
-              </a>
+              @if (username) {
+                <a [routerLink]="['/reservar']" class="a-modal">
+                  <button class="btn btn-reservar-modal" (click)="closeModal()">Reservar</button>
+                </a>
+              } @else {
+                <div class="a-modal">
+                  <button class="btn btn-reservar-modal" (click)="avisarLogin_modal()">Reservar</button>
+                </div>
+              }
             </div>
           }
         </div>

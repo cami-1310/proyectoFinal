@@ -1,5 +1,6 @@
 export interface Habitacion {
     tipo: string;
+    costo: number;
     noRecamaras: number;
     noCamas: number;
     tipoCama: string;

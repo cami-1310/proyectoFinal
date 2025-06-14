@@ -1,19 +1,22 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms';
-import Swal from 'sweetalert2';
 import { FirestoreService } from '../firestore.service';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { PaypalComponent } from '../paypal/paypal.component';
+import { Habitacion } from '../habitacion';
+import { Habitaciones } from '../habitaciones';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reservar',
   standalone:true,
-  imports: [ReactiveFormsModule, PaypalComponent,QRCodeComponent],
+  imports: [ReactiveFormsModule, PaypalComponent, QRCodeComponent],
   templateUrl: './reservar.component.html',
   styleUrl: './reservar.component.css'
 })
 export class ReservarComponent {
   form: FormGroup;
+  habitaciones:Habitacion[]=Habitaciones;
   tiposHabitacion = ['Cabaña sencilla', 'Cabaña doble', 'Cabaña triple', 'Cabaña familiar'];
 
   constructor(private fb: FormBuilder, private firestoreService: FirestoreService){
@@ -87,9 +90,6 @@ export class ReservarComponent {
   enviarFormulario() {
     if (this.form.valid) {
       this.firestoreService.add('formReservas', this.form.value);
-
-      
-
       this.form.reset(); // limpia campos
       //luego para que no nos salgan errores iniciales 
       this.form.markAsPristine(); // indica que no ha sido modificado

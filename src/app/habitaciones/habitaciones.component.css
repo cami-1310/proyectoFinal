@@ -34,7 +34,6 @@ h5{
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-  
 .card:hover,
 .home-img img:hover,
 .lema img:hover{
@@ -97,6 +96,8 @@ h5{
 }
 
 .contenido{
+    display: flex;
+    flex-direction: column;
     padding: 20px;
     background-color: #A0C878;
     text-align: justify;

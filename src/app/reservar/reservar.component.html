@@ -61,10 +61,10 @@
                     <div class="form-control mb-3">
                         <label class="form-label">Tipo de habitación:</label>
         
-                        @for (tipo of tiposHabitacion; track tipo) {
+                        @for (tipo of habitaciones; track tipo) {
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" [value]="tipo" formControlName="tipoHab" [id]="tipo">
-                                <label class="form-check-label" [for]="tipo">{{ tipo }}</label>
+                                <input class="form-check-input" type="radio" [value]="{ tipo: tipo.tipo, costo: tipo.costo }" formControlName="tipoHab" [id]="tipo.tipo">
+                                <label class="form-check-label" [for]="tipo.tipo">{{ tipo.tipo }} - ${{tipo.costo}}.00</label>
                             </div>
                         }
         

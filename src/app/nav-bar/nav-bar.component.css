@@ -1,5 +1,8 @@
 .links{
     gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .links a{
@@ -7,13 +10,6 @@
     color: white;
     font-size: 15px;
 }
-
-.links a span{
-    display: inline-block;
-    margin: 5px;
-}
-
-
 
 .links a span,
 .links a svg{
@@ -28,8 +24,7 @@
 
 .nav-item{
     text-align: left;
-    width: 100%;
-    
+    width: 100%;   
 }
 
 .btn-format{
@@ -44,20 +39,24 @@
     background-color: #A0C878;
 }
 
-.btn-logout{
+.btn-logout,
+.btn-accesibility{
     background-color: transparent;
     border: none;
     display: flex;
     justify-content: left;
     align-items: center;
+    padding: 0%;
 }
 
-.btn-logout svg{
+.btn-logout svg,
+.btn-accesibility svg{
     color: white;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.btn-logout svg:hover{
+.btn-logout svg:hover,
+.btn-accesibility svg:hover{
     color: #27667B;
     transform: scale(1.1);
 }

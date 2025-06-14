@@ -31,7 +31,7 @@ export class AltasUsuariosComponent {
     }, {validators: this.matchPasswords});
   }
 
-  async guardarDatos(){
+  guardarDatos(){
     if (this.registroForm.invalid) {
       this.registroForm.markAllAsTouched();
       Swal.fire({
@@ -41,46 +41,50 @@ export class AltasUsuariosComponent {
       });
       return;
     } else {
-      this.datosUsuarios=await this.firestoreService.getAll('users');
       const datosIngresados=this.registroForm.value;
   
-      const encontrado=this.datosUsuarios.find(registro => 
-        registro.nombreCompleto===datosIngresados.nombreCompleto ||
-        registro.username===datosIngresados.username ||
-        registro.email===datosIngresados.email ||
-        registro.phoneNum===datosIngresados.phoneNum
-      )
-  
-      if(encontrado){
-        Swal.fire({
-          title: "Datos duplicados!",
-          text: "Algunos de los datos que intentas registrar ya se encuentran en la base de datos.",
-          icon: "error"
-        });
-      } else {
-        const hashedPassword = await bcrypt.hash(datosIngresados.password, 10); //para encriptar la contraseña
+      this.firestoreService.getAll('users').subscribe({
+        next: (usuarios: any[]) => {
+          const encontrado=this.datosUsuarios.find(registro => 
+            registro.nombreCompleto===datosIngresados.nombreCompleto ||
+            registro.username===datosIngresados.username ||
+            registro.email===datosIngresados.email ||
+            registro.phoneNum===datosIngresados.phoneNum
+          );
 
-        await this.firestoreService.add('users', {
-          nombreCompleto: datosIngresados.nombreCompleto,
-          username: datosIngresados.username,
-          email: datosIngresados.email,
-          phoneNum: datosIngresados.phoneNum,
-          password: hashedPassword
-        });
-
-        Swal.fire({
-          title: "Registrado!",
-          text: "Tus datos se han guardado correctamente.",
-          icon: "success"
-        }).then(() => {
-          //redirige a iniciar sesion y luego recarga la pagina
-          this.router.navigate(['/login']).then(() => {
-            window.location.reload();
-          });
-        });
-      }
-      
-      this.registroForm.reset();
+          if(encontrado){
+            Swal.fire({
+              title: "Datos duplicados!",
+              text: "Algunos de los datos que intentas registrar ya se encuentran en la base de datos.",
+              icon: "error"
+            });
+          } else {
+            const hashedPassword=bcrypt.hashSync(datosIngresados.password, 10); //para encriptar la contraseña
+            
+            this.firestoreService.add('users', {
+              nombreCompleto: datosIngresados.nombreCompleto,
+              username: datosIngresados.username,
+              email: datosIngresados.email,
+              phoneNum: datosIngresados.phoneNum,
+              password: hashedPassword
+            }).subscribe({
+              next: () => {
+                Swal.fire({
+                  title: "Registrado!",
+                  text: "Tus datos se han guardado correctamente.",
+                  icon: "success"
+                }).then(() => {
+                  //redirige a iniciar sesion y luego recarga la pagina
+                  this.router.navigate(['/login']).then(() => {
+                    window.location.reload();
+                  });
+                });
+                this.registroForm.reset();
+              }
+            });
+          }
+        }
+      });
     }
   }
 
