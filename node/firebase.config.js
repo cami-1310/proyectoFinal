@@ -15,4 +15,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
+
+console.log("Conexión a Firestore establecida correctamente");
+
 module.exports = { db };
