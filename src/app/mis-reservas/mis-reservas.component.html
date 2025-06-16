@@ -25,8 +25,8 @@
 
   <div class="grid" >
     @for (reserva of reservas; track reserva.id) {
-       
-        <div class="card shadow  " style="width: 1000px;">
+       @if(reserva.id===this.id){
+            <div class="card shadow reservaCreada" style="width: 1000px;">
           <div class="card-body">
             <h5 class="card-title">{{ reserva.nombre }}</h5>
             <p class="card-text">
@@ -39,6 +39,23 @@
             <button class="btn btn-danger" (click)="eliminarReserva(reserva.id)">Eliminar</button>
           </div>
         </div>
+       }@else{
+            <div class="card shadow  " style="width: 1000px;">
+          <div class="card-body">
+            <h5 class="card-title">{{ reserva.nombre }}</h5>
+            <p class="card-text">
+              <strong>Fecha de llegada:</strong> {{ reserva.fechaIngreso | date }}<br>
+              <strong>Fecha de salida:</strong> {{ reserva.fechaSalida | date }}<br>
+              <strong>Tipo de habitación:</strong> {{ reserva.tipoHab.tipo }}<br>
+              <strong>Número de personas:</strong> {{ reserva.numPersonas }}<br>
+                <strong>Costo total:</strong> ${{ reserva.tipoHab.costo * reserva.numPersonas }}.00
+            </p>
+            <button class="btn btn-danger" (click)="eliminarReserva(reserva.id)">Eliminar</button>
+          </div>
+        </div>
+       }
+        
+        
     }
   </div>
 </div>

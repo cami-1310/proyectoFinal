@@ -4,6 +4,8 @@ import { FirestoreService } from '../firestore.service';
 import { LoginService } from '../login.service';
 import { QRCodeComponent } from 'angularx-qrcode';
 import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-mis-reservas',
@@ -13,7 +15,8 @@ import Swal from 'sweetalert2';
 })
 export class MisReservasComponent {
   reservas: any[] = [];
-  constructor(private firestoreService: FirestoreService, private loginService: LoginService) { 
+  id: string = '';
+  constructor(private firestoreService: FirestoreService, private loginService: LoginService,private route: ActivatedRoute) { 
     // Verificar si el usuario está logueado
     if (!this.loginService.username) {
       // Redirigir al usuario a la página de login si no está logueado
@@ -46,6 +49,11 @@ export class MisReservasComponent {
   }
 
   ngOnInit() {
-    this.cargarReservas();
+    
+      this.cargarReservas();
+    this.route.queryParams.subscribe(params => {
+      this.id = params['id'] ;
+    });
+    console.log('ID generado:', this.id);
   }
 }
