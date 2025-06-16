@@ -12,7 +12,7 @@
                 <p>Fecha de salida: {{ reserva.fechaSalida | date }}</p>
                 <p>Tipo de habitación: {{ reserva.tipoHab }}</p>
                 <p>Número de personas: {{ reserva.numPersonas }}</p>
-                <button >Eliminar</button>
+                <button  (click)="eliminarReserva(reserva.id)">Eliminar</button>
             </div>
         }
     </div>

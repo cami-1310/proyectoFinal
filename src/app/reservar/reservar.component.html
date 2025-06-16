@@ -89,9 +89,9 @@
                             <div class="msj">En esta cabaña solo pueden hospedarse {{ form.errors?.['maxPorTipo'] }} personas como máximo.</div>
                         }
                     </div>
-                    <button class="btn-enviar"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="submit" [disabled]="form.invalid">Crear reservación</button>
+                    <button class="btn-enviar"   type="submit" [disabled]="form.invalid">Crear reservación</button>
 
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="staticBackdrop" #reservaModal data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -99,7 +99,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <qrcode [qrdata]="'http://localhost:4200/misReservas'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                                <qrcode [qrdata]="'http://localhost:4200/misReservas?id=' + idGenerado" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
