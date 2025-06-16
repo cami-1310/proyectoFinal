@@ -5,4 +5,15 @@ h2{
     color: #27667B; 
 }
 
+.grid{
+    
+  display: grid;
+  gap: 1rem;
+  max-width: 100%;       /* límite de ancho del grid */
+  margin: 0 auto;          /* centra horizontalmente */
+  padding: 1rem;
+  box-sizing: border-box;
+   justify-items: center;
+}
+
 
