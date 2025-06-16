@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FirestoreService } from '../firestore.service';
 import { LoginService } from '../login.service';
 import { QRCodeComponent } from 'angularx-qrcode';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mis-reservas',
@@ -28,6 +29,20 @@ export class MisReservasComponent {
         this.reservas = reservas;
       }
     });
+  }
+
+  eliminarReserva(id: string) {
+    this.firestoreService.delete('formReservas', id)
+      .subscribe({
+        next: () => {
+          // Recargar las reservas después de eliminar una
+          Swal.fire("Reserva eliminada", "La reserva ha sido eliminada correctamente.", "success");
+          this.cargarReservas();
+        },
+        error: (error) => {
+          console.error('Error al eliminar la reserva:', error);
+        }
+      });
   }
 
   ngOnInit() {

@@ -5,7 +5,9 @@ import { QRCodeComponent } from 'angularx-qrcode';
 import { PaypalComponent } from '../paypal/paypal.component';
 import { Habitacion } from '../habitacion';
 import { Habitaciones } from '../habitaciones';
-import Swal from 'sweetalert2';
+import { ViewChild, ElementRef } from '@angular/core';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-reservar',
@@ -16,6 +18,7 @@ import Swal from 'sweetalert2';
 })
 export class ReservarComponent {
   form: FormGroup;
+  idGenerado: string = '';
   habitaciones:Habitacion[]=Habitaciones;
   tiposHabitacion = ['Cabaña sencilla', 'Cabaña doble', 'Cabaña triple', 'Cabaña familiar'];
 
@@ -28,6 +31,9 @@ export class ReservarComponent {
       numPersonas: ['', [Validators.required, Validators.min(1)]]
     }, { validators: [this.fechaNoPasada(), this.fechasCoherentes(), this.maxPersonas()] });
   }
+
+    @ViewChild('reservaModal') reservaModal!: ElementRef;
+
 
   fechaNoPasada(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -89,7 +95,12 @@ export class ReservarComponent {
 
   enviarFormulario() {
     if (this.form.valid) {
-      this.firestoreService.add('formReservas', this.form.value);
+      this.firestoreService.add('formReservas', this.form.value).subscribe({
+        next: (res) => {
+          this.idGenerado = res.id;
+          const modal = new bootstrap.Modal(this.reservaModal.nativeElement);
+          modal.show();
+        }});
       this.form.reset(); // limpia campos
       //luego para que no nos salgan errores iniciales 
       this.form.markAsPristine(); // indica que no ha sido modificado
