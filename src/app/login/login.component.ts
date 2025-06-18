@@ -48,7 +48,7 @@ export class LoginComponent {
           const admin=admins.find(admin => 
             admin.nombreCompleto===datosIngresados.nombreCompleto &&
             admin.username===datosIngresados.username &&
-            admin.password===datosIngresados.password
+            bcrypt.compareSync(datosIngresados.password, admin.password)
           );
           
           if(admin){

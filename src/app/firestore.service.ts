@@ -31,6 +31,11 @@ export class FirestoreService {
     return this.http.delete<any>(`${this.apiURL}/${collectionName}/${id}`);
   }
 
+  //cambios
+  update(collectionName: string, id: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiURL}/${collectionName}/${id}`, data);
+  }
+
   //consulta condicional
   getWhere(collectionName: string, conditions: QueryCondition[]): Observable<any[]> {
     return this.http.post<any[]>(`${this.apiURL}/query/${collectionName}`, { conditions });
