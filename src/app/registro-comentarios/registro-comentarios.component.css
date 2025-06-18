@@ -1,5 +1,5 @@
 @media (max-width: 768px) {
-  table, thead, tbody, th, td, tr {
+  table, thead, tbody, th, td {
     display: block;
     width: 100%;
   }
@@ -8,8 +8,14 @@
     display: none;
   }
 
+  tbody{
+    justify-items: center;
+  }
+
   tr {
-    margin-bottom: 20px;
+    display: block;
+    width: 90%;
+    margin: 20px;
     background-color: #f5f5f5;
     padding: 10px;
     border-radius: 8px;

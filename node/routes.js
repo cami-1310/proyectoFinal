@@ -41,6 +41,17 @@ router.delete('/:collectionName/:id', async (req, res) => {
   }
 });
 
+// PUT actualizar registros
+router.put('/:collectionName/:id', async (req, res) => {
+  try {
+    const docRef = doc(db, req.params.collectionName, req.params.id);
+    await updateDoc(docRef, req.body);
+    res.json({ message: 'Documento actualizado correctamente' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // POST getWhere
 router.post('/query/:collectionName', async (req, res) => {
   try {
