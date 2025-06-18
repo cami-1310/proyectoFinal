@@ -35,7 +35,7 @@
                                 <div class="msj">La fecha de llegada es obligatoria.</div>
                             }
                         }
-                        @if (form.errors?.['fechaPasada']) {
+                        @if (form.errors?.['fechaPasada'] && formEnviado) {
                             <div class="msj">Tu fecha de llegada debe ser posterior a la de hoy.</div>
                         }
                     </div>
@@ -49,10 +49,10 @@
                                 <div class="msj">La fecha de salida es obligatoria.</div>
                             }
                         }
-                        @if (form.errors?.['fechasInvalidas']) {
+                        @if (form.errors?.['fechasInvalidas'] && formEnviado) {
                             <div class="msj">La fecha de salida debe ser posterior a la fecha de llegada.</div>
                         }
-                        @if (form.errors?.['estanciaInvalida']) {
+                        @if (form.errors?.['estanciaInvalida']  && formEnviado) {
                             <div class="msj">Tu estancia debe ser de al menos 1 dia.</div>
                         }
                     </div>
@@ -86,7 +86,7 @@
                                 <div class="msj">Debe ser al menos 1 persona.</div>
                             }
                         }
-                        @if (form.errors?.['maxPorTipo']) {
+                        @if (form.errors?.['maxPorTipo']  && formEnviado) {
                             <div class="msj">En esta cabaña solo pueden hospedarse {{ form.errors?.['maxPorTipo'] }} personas como máximo.</div>
                         }
                     </div>
@@ -102,15 +102,17 @@
                     <div class="modal fade" id="staticBackdrop" #reservaModal data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Reserva exitosa!</h1>
+                                <div class="modal-header" style="background-color:  #143D60; color: white;">
+                                    <h3 class="modal-title  d-flex justify-content-center" id="staticBackdropLabel" >Reserva exitosa!</h3>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="modal-body">
-                                    <qrcode [qrdata]="'http://localhost:4200/misReservas'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                                <div class="modal-body d-flex justify-content-center">
+                                    <qrcode [qrdata]="'http://localhost:4200/misReservas?id=' + idGenerado" [width]="256" [errorCorrectionLevel]="'M'"></qrcode><br>
                                 </div>
+                                <strong class="texto" style="display: flex; justify-content: center ;">Escanea tu QR para ver tu reserva</strong>
+                                <br>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn" style="background-color: #143D60; color: white;" data-bs-dismiss="modal">Cerrar</button>
                                 </div>
                             </div>
                         </div>

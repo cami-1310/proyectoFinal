@@ -22,6 +22,7 @@ export class ReservarComponent {
   idGenerado: string = '';
   habitaciones:Habitacion[]=Habitaciones;
   tiposHabitacion = ['Cabaña sencilla', 'Cabaña doble', 'Cabaña triple', 'Cabaña familiar'];
+  formEnviado: boolean=false;
 
   constructor(private fb: FormBuilder, private firestoreService: FirestoreService, public paypalService: PaypalService){
     this.form=this.fb.group({
@@ -96,6 +97,10 @@ export class ReservarComponent {
         'Cabaña Familiar': 8
       };
 
+      if (!tipoHab || typeof tipoHab !== 'object' || !tipoHab.tipo) {
+        return null;
+      }
+
       //accede al campo tipo del objeto, y busca ese string como clave en limites
       const max=limites[tipoHab.tipo]; //max guarda el maximo asociado al string de tipo
       if(num > max){
@@ -143,6 +148,7 @@ export class ReservarComponent {
   }
 
   enviarFormulario(){
+    this.formEnviado=true;
     //guardando en la BD
     this.firestoreService.add('formReservas', this.form.value).subscribe({
       next: (res) => {
@@ -151,8 +157,9 @@ export class ReservarComponent {
         //luego para que no nos salgan errores iniciales 
         this.form.markAsPristine(); // indica que no ha sido modificado
         this.form.markAsUntouched(); // indica que no ha sido tocado
-        this.paypalService.banderaPago=false;
+        this.paypalService.banderaPago=false; // mandar a falso la bandera
         this.form.updateValueAndValidity(); // recalcula validaciones
+        this.formEnviado=false;
       }
     });
   }
