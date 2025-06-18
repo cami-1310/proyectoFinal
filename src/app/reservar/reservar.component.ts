@@ -6,6 +6,9 @@ import { PaypalComponent } from '../paypal/paypal.component';
 import { Habitacion } from '../habitacion';
 import { Habitaciones } from '../habitaciones';
 import { PaypalService } from '../paypal.service';
+import { ViewChild, ElementRef } from '@angular/core';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-reservar',
@@ -16,6 +19,7 @@ import { PaypalService } from '../paypal.service';
 })
 export class ReservarComponent {
   form: FormGroup;
+  idGenerado: string = '';
   habitaciones:Habitacion[]=Habitaciones;
   tiposHabitacion = ['Cabaña sencilla', 'Cabaña doble', 'Cabaña triple', 'Cabaña familiar'];
 
@@ -39,6 +43,8 @@ export class ReservarComponent {
       this.obtenerTotal(); // recalcula total en cada cambio del formulario
     });
   }
+
+  @ViewChild('reservaModal') reservaModal!: ElementRef;
 
   fechaNoPasada(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -136,7 +142,7 @@ export class ReservarComponent {
     this.paypalService.total=noches*precio;
   }
 
-  enviarFormulario() {
+  enviarFormulario(){
     //guardando en la BD
     this.firestoreService.add('formReservas', this.form.value).subscribe({
       next: (res) => {
@@ -147,7 +153,6 @@ export class ReservarComponent {
         this.form.markAsUntouched(); // indica que no ha sido tocado
         this.paypalService.banderaPago=false;
         this.form.updateValueAndValidity(); // recalcula validaciones
-
       }
     });
   }
