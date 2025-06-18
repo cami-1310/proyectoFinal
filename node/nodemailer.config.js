@@ -1,6 +1,5 @@
 const nodemailer = require('nodemailer');
 
-// Transporter usando Mailinator SMTP (solo para pruebas, no para producción)
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -8,12 +7,7 @@ const transporter = nodemailer.createTransport({
     pass: 'fsla nstl zezu xvoz'
   }
 });
-/**
- * Envía un correo usando Mailinator
- * @param {string} to - destinatario (ejemplo: prueba@mailinator.com)
- * @param {string} subject - asunto del correo
- * @param {string} text - cuerpo del correo
- */
+
 async function enviarCorreo(to, { nombre, fechaIngreso, fechaSalida, numPersonas   }) {
   const mailOptions = {
     from: '"Stillalp" <reservas@stillalp.com>',
