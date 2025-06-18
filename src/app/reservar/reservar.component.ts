@@ -5,7 +5,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
 import { PaypalComponent } from '../paypal/paypal.component';
 import { Habitacion } from '../habitacion';
 import { Habitaciones } from '../habitaciones';
-import Swal from 'sweetalert2';
+import { PaypalService } from '../paypal.service';
 
 @Component({
   selector: 'app-reservar',
@@ -19,14 +19,25 @@ export class ReservarComponent {
   habitaciones:Habitacion[]=Habitaciones;
   tiposHabitacion = ['Cabaña sencilla', 'Cabaña doble', 'Cabaña triple', 'Cabaña familiar'];
 
-  constructor(private fb: FormBuilder, private firestoreService: FirestoreService){
+  constructor(private fb: FormBuilder, private firestoreService: FirestoreService, public paypalService: PaypalService){
     this.form=this.fb.group({
       nombre: ['', [Validators.required, Validators.pattern("^[A-Za-zÁÉÍÓÚÑáéíóúñ]+(?: [A-Za-zÁÉÍÓÚÑáéíóúñ]+)*$")]],
       fechaIngreso: ['', Validators.required],
       fechaSalida: ['', Validators.required],
       tipoHab: ['', Validators.required],
       numPersonas: ['', [Validators.required, Validators.min(1)]]
-    }, { validators: [this.fechaNoPasada(), this.fechasCoherentes(), this.maxPersonas()] });
+    }, { validators: [this.fechaNoPasada(), this.fechasCoherentes(), this.maxPersonas(), this.validarPago()] });
+
+    //Para que no nos salgan errores iniciales 
+    this.form.markAsPristine(); // indica que no ha sido modificado
+    this.form.markAsUntouched(); // indica que no ha sido tocado
+    this.form.updateValueAndValidity(); // recalcula validaciones
+  }
+
+  ngOnInit() {
+    this.form.valueChanges.subscribe(() => {
+      this.obtenerTotal(); // recalcula total en cada cambio del formulario
+    });
   }
 
   fechaNoPasada(): ValidatorFn {
@@ -68,17 +79,19 @@ export class ReservarComponent {
 
   maxPersonas(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const tipo=control.get('tipoHab')?.value;
+      const tipoHab=control.get('tipoHab')?.value; //esto es un objeto con 2 campos: tipo y costo
       const num=control.get('numPersonas')?.value;
-  
+
+      //objeto que asocia el tipo de cabaña con su num maximo de personas
       const limites: { [key: string]: number } = {
-        'Cabaña sencilla': 2,
-        'Cabaña doble': 4,
-        'Cabaña triple': 3,
-        'Cabaña familiar': 8
+        'Cabaña Sencilla': 2,
+        'Cabaña Doble': 4,
+        'Cabaña Triple': 3,
+        'Cabaña Familiar': 8
       };
-  
-      const max=limites[tipo];
+
+      //accede al campo tipo del objeto, y busca ese string como clave en limites
+      const max=limites[tipoHab.tipo]; //max guarda el maximo asociado al string de tipo
       if(num > max){
         return { maxPorTipo: max};
       } else {
@@ -87,14 +100,55 @@ export class ReservarComponent {
     };
   }
 
+  //para asegurarnos que el pago se hizo
+  onPagoHecho() {
+    this.paypalService.banderaPago=true;
+    this.form.updateValueAndValidity();
+  }
+
+  validarPago(): ValidatorFn {
+    return (): { [key: string]: any } | null => {
+      if(this.paypalService.banderaPago){
+        //ya pagó
+        return null;
+      } else {
+        return { pagoNoRealizado: true }; //no ha pagado
+      }
+    };
+  }
+
+  obtenerTotal(){
+    const tipoHab=this.form.get('tipoHab')?.value;
+    const fechaIngreso=new Date(this.form.get('fechaIngreso')?.value);
+    const fechaSalida=new Date(this.form.get('fechaSalida')?.value);
+
+    const precios: { [key: string]: number } = {
+      'Cabaña Sencilla': 500,
+      'Cabaña Doble': 800,
+      'Cabaña Triple': 1200,
+      'Cabaña Familiar': 1500
+    };
+
+    const precio=precios[tipoHab?.tipo];
+    const dif=fechaSalida.getTime()-fechaIngreso.getTime();
+    const noches=Math.floor(dif/(1000 * 60 * 60 * 24));
+
+    this.paypalService.total=noches*precio;
+  }
+
   enviarFormulario() {
-    if (this.form.valid) {
-      this.firestoreService.add('formReservas', this.form.value);
-      this.form.reset(); // limpia campos
-      //luego para que no nos salgan errores iniciales 
-      this.form.markAsPristine(); // indica que no ha sido modificado
-      this.form.markAsUntouched(); // indica que no ha sido tocado
-      this.form.updateValueAndValidity(); // recalcula validaciones
-    }
+    //guardando en la BD
+    this.firestoreService.add('formReservas', this.form.value).subscribe({
+      next: (res) => {
+        //reseteamos todo
+        this.form.reset(); // limpia campos
+        //luego para que no nos salgan errores iniciales 
+        this.form.markAsPristine(); // indica que no ha sido modificado
+        this.form.markAsUntouched(); // indica que no ha sido tocado
+        this.paypalService.banderaPago=false;
+        this.form.updateValueAndValidity(); // recalcula validaciones
+
+      }
+    });
   }
 }

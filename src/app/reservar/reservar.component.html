@@ -1,6 +1,6 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center" style="height: 100%;">
             <div class="mensaje m-3">
                 <img src="cab.png" alt="...">
                 <h1>¡Gracias por reservar con nosotros!</h1>
@@ -9,7 +9,7 @@
             </div>
         </div>
     
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
             <div class="contenedor m-3">
                 <form [formGroup]="form" (ngSubmit)="enviarFormulario()">
                     <!-- Nombre -->
@@ -61,10 +61,11 @@
                     <div class="form-control mb-3">
                         <label class="form-label">Tipo de habitación:</label>
         
-                        @for (tipo of habitaciones; track tipo) {
+                        <!-- Recorriendo habitaciones y creando un radio button por cada elemento -->
+                        @for (hab of habitaciones; track hab) {
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" [value]="{ tipo: tipo.tipo, costo: tipo.costo }" formControlName="tipoHab" [id]="tipo.tipo">
-                                <label class="form-check-label" [for]="tipo.tipo">{{ tipo.tipo }} - ${{tipo.costo}}.00</label>
+                                <input class="form-check-input" type="radio" [value]="{ tipo: hab.tipo, costo: hab.costo }" formControlName="tipoHab" [id]="hab.tipo">
+                                <label class="form-check-label" [for]="hab.tipo">{{ hab.tipo }} - ${{hab.costo}}.00 USD</label>
                             </div>
                         }
         
@@ -89,31 +90,33 @@
                             <div class="msj">En esta cabaña solo pueden hospedarse {{ form.errors?.['maxPorTipo'] }} personas como máximo.</div>
                         }
                     </div>
-                    <button class="btn-enviar"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="submit" [disabled]="form.invalid">Crear reservación</button>
+
+                    <app-paypal (pagoCompleto)="onPagoHecho()"></app-paypal>
+
+                    @if (form.errors?.['pagoNoRealizado']) {
+                        <div class="msj">Debes realizar el pago para continuar.</div>
+                    }
+
+                    <button class="btn-enviar mt-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop" type="submit" [disabled]="form.invalid">Crear reservación</button>
 
                     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Reserva exitosa!</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <qrcode [qrdata]="'http://localhost:4200/misReservas'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                
-                            </div>
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Reserva exitosa!</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <qrcode [qrdata]="'http://localhost:4200/misReservas'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
-
-            <app-paypal></app-paypal>
-
         </div>
     </div>
-    
 </div>

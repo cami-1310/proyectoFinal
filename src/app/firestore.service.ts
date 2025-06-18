@@ -35,25 +35,4 @@ export class FirestoreService {
   getWhere(collectionName: string, conditions: QueryCondition[]): Observable<any[]> {
     return this.http.post<any[]>(`${this.apiURL}/query/${collectionName}`, { conditions });
   }
-
-  /*
-  async getWhere(collectionName: string, conditions: QueryCondition[]): Promise<DocumentData[]> {
-    const colRef = collection(db, collectionName);
-
-    // Creamos un array para almacenar las restricciones de la consulta (QueryFieldFilterConstraint)
-    const queryConstraints: QueryFieldFilterConstraint[] = [];
-
-    // Iteramos sobre las condiciones y agregamos cada una a las restricciones
-    for (const condition of conditions) {
-      queryConstraints.push(
-        where(condition.fieldPath, condition.opStr, condition.value)
-      );
-    }
-
-    // Creamos la consulta con todas las restricciones
-    const q = query(colRef, ...queryConstraints);
-
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  }*/
 }

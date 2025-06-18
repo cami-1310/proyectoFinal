@@ -12,6 +12,7 @@ router.get('/:collectionName', async (req, res) => {
     res.json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
+    console.log('error en get');
   }
 });
 
@@ -23,6 +24,7 @@ router.post('/:collectionName', async (req, res) => {
     res.json({ id: docRef.id });
   } catch (error) {
     res.status(500).json({ error: error.message });
+    console.log('error en post');
   }
 });
 
