@@ -7,6 +7,7 @@ import { Habitacion } from '../habitacion';
 import { Habitaciones } from '../habitaciones';
 import { PaypalService } from '../paypal.service';
 import { ViewChild, ElementRef } from '@angular/core';
+import { LoginService } from '../login.service';
 
 declare var bootstrap: any;
 
@@ -24,7 +25,7 @@ export class ReservarComponent {
   tiposHabitacion = ['Cabaña sencilla', 'Cabaña doble', 'Cabaña triple', 'Cabaña familiar'];
   formEnviado: boolean=false;
 
-  constructor(private fb: FormBuilder, private firestoreService: FirestoreService, public paypalService: PaypalService){
+  constructor(private fb: FormBuilder, private firestoreService: FirestoreService, public paypalService: PaypalService, private loginService: LoginService){
     this.form=this.fb.group({
       nombre: ['', [Validators.required, Validators.pattern("^[A-Za-zÁÉÍÓÚÑáéíóúñ]+(?: [A-Za-zÁÉÍÓÚÑáéíóúñ]+)*$")]],
       fechaIngreso: ['', Validators.required],
@@ -150,8 +151,13 @@ export class ReservarComponent {
   enviarFormulario(){
     this.formEnviado=true;
     //guardando en la BD
+
+    this.form.value.creadoPor = this.loginService.username;
     this.firestoreService.add('formReservas', this.form.value).subscribe({
       next: (res) => {
+        this.idGenerado = res.id;
+        const modal = new bootstrap.Modal(this.reservaModal.nativeElement);
+        modal.show();
         //reseteamos todo
         this.form.reset(); // limpia campos
         //luego para que no nos salgan errores iniciales 

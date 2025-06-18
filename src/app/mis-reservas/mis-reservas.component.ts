@@ -26,9 +26,10 @@ export class MisReservasComponent {
   
   cargarReservas() {
     this.firestoreService.getWhere('formReservas',[
-      {fieldPath:'nombre', opStr: '==', value: this.loginService.username }
+      {fieldPath:'creadoPor', opStr: '==', value: this.loginService.username }
     ]).subscribe({
       next: (reservas) => {
+        console.log('Reservas cargadas:', reservas);
         this.reservas = reservas;
       }
     });
