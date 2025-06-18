@@ -24,8 +24,8 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, private loginService: LoginService, private router: Router, private firestoreService: FirestoreService){
     this.loginForm=this.fb.group({
-      nombreCompleto: ['', Validators.required],
       username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
   }
@@ -46,8 +46,8 @@ export class LoginComponent {
         next: (admins: any[]) => {
           //lo buscamos en administradores
           const admin=admins.find(admin => 
-            admin.nombreCompleto===datosIngresados.nombreCompleto &&
             admin.username===datosIngresados.username &&
+            admin.email===datosIngresados.email &&
             bcrypt.compareSync(datosIngresados.password, admin.password)
           );
           
@@ -69,8 +69,8 @@ export class LoginComponent {
             this.firestoreService.getAll('users').subscribe({
               next: (usuarios: any[]) => {
                 const usuarioEncontrado=usuarios.find(user =>
-                  user.nombreCompleto===datosIngresados.nombreCompleto &&
                   user.username===datosIngresados.username &&
+                  user.email===datosIngresados.email &&
                   bcrypt.compareSync(datosIngresados.password, user.password)
                 );
 

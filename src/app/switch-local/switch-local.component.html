@@ -1,15 +1,16 @@
 <div class="contenedor">
-  <div class="switch-container d-flex flex-column flex-md-row justify-content-center align-items-center">
-    <button 
-      [ngClass]="{ 'activo': vista === 'reservas' }" 
-      (click)="vista = 'reservas'">Reservas
-    </button>
-  
-    <button 
-      [ngClass]="{ 'activo': vista === 'comentarios' }" 
-      (click)="vista = 'comentarios'">Comentarios
-    </button>
-  
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="switch-container d-flex flex-column flex-md-row justify-content-center align-items-center">
+      <button 
+        [ngClass]="{ 'activo': vista === 'reservas' }" 
+        (click)="vista = 'reservas'">Reservas
+      </button>
+    
+      <button 
+        [ngClass]="{ 'activo': vista === 'comentarios' }" 
+        (click)="vista = 'comentarios'">Comentarios
+      </button>
+    </div>
   </div>
   
   <div class="contenido">

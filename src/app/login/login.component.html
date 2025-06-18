@@ -5,21 +5,23 @@
 
     <div [formGroup]="loginForm" class="d-flex flex-column justify-content-center align-items-center">
         <mat-form-field>
-            <mat-label class="label-custom">Nombre completo</mat-label>
-            <input matInput required formControlName="nombreCompleto">
-            <mat-error>
-                @if (loginForm.get('nombreCompleto')?.hasError('required')) {
-                    El nombre es obligatorio
-                }
-            </mat-error>
-        </mat-form-field>
-    
-        <mat-form-field>
             <mat-label class="label-custom">Nombre de usuario</mat-label>
             <input matInput required formControlName="username">
             <mat-error>
                 @if (loginForm.get('username')?.hasError('required')) {
                     El nombre de usuario es obligatorio
+                }
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label class="label-custom">Email</mat-label>
+            <input matInput required formControlName="email">
+            <mat-error>
+                @if (loginForm.get('email')?.hasError('required')) {
+                    El correo es obligatorio
+                } @else if (loginForm.get('email')?.hasError('email')) {
+                    El correo no tiene un formato válido
                 }
             </mat-error>
         </mat-form-field>
@@ -39,5 +41,4 @@
 
     <p>Si no tienes una cuenta</p>
     <a [routerLink]="['/altas']">click aquí</a>
-    
 </div>
