@@ -152,8 +152,16 @@ export class ReservarComponent {
     this.formEnviado=true;
     //guardando en la BD
 
-    this.form.value.creadoPor = this.loginService.username;
-    this.firestoreService.add('formReservas', this.form.value).subscribe({
+    this.obtenerTotal();
+
+    const reserva = {
+      ...this.form.value,
+      total: this.paypalService.total,
+      creadoPor: this.loginService.username
+    };
+
+    //this.form.value.creadoPor = this.loginService.username;
+    this.firestoreService.add('formReservas', reserva).subscribe({
       next: (res) => {
         this.idGenerado = res.id;
         const modal = new bootstrap.Modal(this.reservaModal.nativeElement);
