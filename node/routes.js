@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt'); 
 const { db } = require('./firebase.config');
 const { collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, where } = require('firebase/firestore');
+const { enviarCorreo } = require('./nodemailer.config');
 
 const router = express.Router();
 
@@ -23,6 +24,13 @@ router.post('/:collectionName', async (req, res) => {
   try {
     const colRef = collection(db, req.params.collectionName);
     const docRef = await addDoc(colRef, req.body);
+
+    if (req.params.collectionName === 'formReservas') {
+      // Enviar correo de confirmación
+      const email = await obtenerEmailPorUsername(req.body.creadoPor);
+
+      await enviarCorreo(email, req.body);
+    }
     res.json({ id: docRef.id });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -61,31 +69,14 @@ router.post('/query/:collectionName', async (req, res) => {
   }
 });
 
-//ruta temporal para hashear las contraseñas de la coleccion de admins mediante postman
-// router.post('/hash-passwords/:collectionName', async (req, res) => {
-//   try {
-//     const colRef = collection(db, req.params.collectionName);
-//     const snapshot = await getDocs(colRef);
-
-//     const updates = [];
-
-//     for (const docSnap of snapshot.docs) {
-//       const data = docSnap.data();
-
-//       // Solo si la contraseña no está hasheada aún
-//       if (data.password && !data.password.startsWith('$2b$')) {
-//         const hashed = await bcrypt.hash(data.password, 10);
-//         const docRef = doc(db, req.params.collectionName, docSnap.id);
-//         updates.push(updateDoc(docRef, { password: hashed }));
-//       }
-//     }
-
-//     await Promise.all(updates);
-//     res.json({ message: 'Contraseñas actualizadas correctamente' });
-//   } catch (error) {
-//     console.error('Error al actualizar contraseñas:', error);
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+const obtenerEmailPorUsername = async (username) => {
+  const colRef = collection(db, 'users');
+  const q = query(colRef, where('username', '==', username));
+  const snapshot = await getDocs(q);
+  if (snapshot.empty) {
+    throw new Error('Usuario no encontrado');
+  }
+  return snapshot.docs[0].data().email;
+};
 
 module.exports = router;
