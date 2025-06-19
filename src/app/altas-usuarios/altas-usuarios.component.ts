@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { FirestoreService } from '../firestore.service';
+import { BlockService } from '../block.service';
 import Swal from 'sweetalert2';
 import * as bcrypt from 'bcryptjs';
 
@@ -20,7 +21,7 @@ export class AltasUsuariosComponent {
   datosUsuarios: any[]=[];
   duplicado: boolean=false;
 
-  constructor(private fb: FormBuilder, private router: Router, private  firestoreService: FirestoreService){
+  constructor(private fb: FormBuilder, private router: Router, private  firestoreService: FirestoreService, private blockService: BlockService){
     this.registroForm=this.fb.group({
       nombreCompleto: ['', Validators.required],
       username: ['', Validators.required],
@@ -60,26 +61,34 @@ export class AltasUsuariosComponent {
             });
           } else {
             const hashedPassword=bcrypt.hashSync(datosIngresados.password, 10); //para encriptar la contraseña
-            
-            this.firestoreService.add('users', {
+
+            const usuario = {
               nombreCompleto: datosIngresados.nombreCompleto,
               username: datosIngresados.username,
               email: datosIngresados.email,
               phoneNum: datosIngresados.phoneNum,
-              password: hashedPassword
-            }).subscribe({
-              next: () => {
-                Swal.fire({
-                  title: "Registrado!",
-                  text: "Tus datos se han guardado correctamente.",
-                  icon: "success"
-                }).then(() => {
-                  //redirige a iniciar sesion y luego recarga la pagina
-                  this.router.navigate(['/login']).then(() => {
-                    window.location.reload();
-                  });
+              password: hashedPassword,
+              bloqueado: false
+            };
+
+            this.firestoreService.add('users', usuario).subscribe({
+              next: (res) => {
+                const id=res.id;
+                this.firestoreService.update('users', res.id, {id}).subscribe({
+                  next: () => {
+                    Swal.fire({
+                      title: "Registrado!",
+                      text: "Tus datos se han guardado correctamente.",
+                      icon: "success"
+                    }).then(() => {
+                    //redirige a iniciar sesion y luego recarga la pagina
+                      this.router.navigate(['/login']).then(() => {
+                        window.location.reload();
+                      });
+                    });
+                    this.registroForm.reset();
+                  }
                 });
-                this.registroForm.reset();
               }
             });
           }
