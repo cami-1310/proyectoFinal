@@ -1,7 +1,6 @@
-.container{
-    min-width: 90vw;
-    display: flex;
-    justify-content: center;
+:host {
+  display: block;
+  width: 100%;
 }
  
 .row{

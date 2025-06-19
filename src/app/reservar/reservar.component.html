@@ -86,7 +86,7 @@
                                 <div class="msj">Debe ser al menos 1 persona.</div>
                             }
                         }
-                        @if (form.errors?.['maxPorTipo']  && formEnviado) {
+                        @if (form.errors?.['maxPorTipo']) {
                             <div class="msj">En esta cabaña solo pueden hospedarse {{ form.errors?.['maxPorTipo'] }} personas como máximo.</div>
                         }
                     </div>
