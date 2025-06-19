@@ -160,7 +160,6 @@ export class ReservarComponent {
       creadoPor: this.loginService.username
     };
 
-    //this.form.value.creadoPor = this.loginService.username;
     this.firestoreService.add('formReservas', reserva).subscribe({
       next: (res) => {
         this.idGenerado = res.id;
