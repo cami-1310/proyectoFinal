@@ -1,0 +1,49 @@
+.container{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.title{
+    text-align: center;
+    margin: 20px;
+}
+
+h1{
+    color: #27667B;
+    font-size: 50px;
+}
+
+mat-form-field{
+    margin-bottom: 20px;
+}
+
+mat-icon{
+    color: #27667B;
+    font-size: 150px;
+    width: 150px;
+    height: 150px;
+}
+
+.label-custom,
+.button,
+input,
+mat-form-field,
+mat-error{
+    font-family: "Montserrat", sans-serif !important;
+}
+
+mat-form-field,
+.button{
+    width: 290px;
+}
+
+.button{
+    background-color: #27667B !important;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.button:hover{
+    background-color: #A0C878 !important;
+}
