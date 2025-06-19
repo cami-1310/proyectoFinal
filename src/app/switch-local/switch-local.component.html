@@ -1,12 +1,12 @@
-<div class="contenedor">
+<div>
   <div class="d-flex justify-content-center align-items-center">
-    <div class="switch-container d-flex flex-column flex-md-row justify-content-center align-items-center">
-      <button 
+    <div class="switch-container d-flex flex-column flex-lg-row justify-content-center align-items-center">
+      <button class="btn1"
         [ngClass]="{ 'activo': vista === 'reservas' }" 
         (click)="vista = 'reservas'">Reservas
       </button>
     
-      <button 
+      <button class="btn2"
         [ngClass]="{ 'activo': vista === 'comentarios' }" 
         (click)="vista = 'comentarios'">Comentarios
       </button>
