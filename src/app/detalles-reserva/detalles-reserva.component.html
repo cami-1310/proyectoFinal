@@ -1,0 +1,24 @@
+<div class="contenedorPrincipal">
+    <div class="card contenedor shadow-sm border-0 rounded-4 p-4 bg-light">
+        <p class="card-text mb-4">
+            <strong> Fecha de llegada:</strong> {{ reserva.fechaIngreso }}
+        </p>
+        <p class="card-text mb-4">
+            <strong> Fecha de salida:</strong> {{ reserva.fechaSalida }}
+        </p>
+        <p class="card-text mb-4">
+            <strong> Tipo de habitación:</strong> {{ reserva.tipoHab.tipo }}
+        </p>
+        <p class="card-text mb-4">
+            <strong> Número de personas:</strong> {{ reserva.numPersonas }}
+        </p>
+        <p class="card-text fw-bold fs-5 text-success">
+            Total: ${{ reserva.total }}.00 USD
+        </p>
+    </div>
+
+    <div class="ms-4">
+        <img src="/home-img.jpg" alt="Habitación" style="width: 500px; height: auto; border-radius: 10px;">
+    </div>
+</div>
+    
