@@ -107,7 +107,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body d-flex justify-content-center">
-                                    <qrcode [qrdata]="'http://localhost:4200/misReservas?id=' + idGenerado" [width]="256" [errorCorrectionLevel]="'M'"></qrcode><br>
+                                    <qrcode [qrdata]="'http://localhost:4200/detalleReserva/' + idGenerado" [width]="256" [errorCorrectionLevel]="'M'"></qrcode><br>
                                 </div>
                                 <strong class="texto" style="display: flex; justify-content: center ;">Escanea tu QR para ver tu reserva</strong>
                                 <br>

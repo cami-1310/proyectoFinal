@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MisReservasComponent {
   reservas: any[] = [];
-  id: string = '';
+  
   constructor(private firestoreService: FirestoreService, private loginService: LoginService,private route: ActivatedRoute) { 
     // Verificar si el usuario está logueado
     if (!this.loginService.username) {
@@ -52,9 +52,6 @@ export class MisReservasComponent {
   ngOnInit() {
     
       this.cargarReservas();
-    this.route.queryParams.subscribe(params => {
-      this.id = params['id'] ;
-    });
-    console.log('ID generado:', this.id);
+    
   }
 }
