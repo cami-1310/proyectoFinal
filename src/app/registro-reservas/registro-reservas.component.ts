@@ -38,7 +38,6 @@ export class RegistroReservasComponent {
     this.firestoreService.getAll('formReservas').subscribe({
       next: data => {
         this.reservas=data;
-        console.log(this.reservas);
       }
     });
   }
