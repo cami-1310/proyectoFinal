@@ -1,20 +1,23 @@
-<div class="switch-container">
-  <button 
-    [ngClass]="{ 'activo': vista === 'reservas' }" 
-    (click)="vista = 'reservas'">Reservas
-  </button>
-
-  <button 
-    [ngClass]="{ 'activo': vista === 'comentarios' }" 
-    (click)="vista = 'comentarios'">Comentarios
-  </button>
-
-</div>
-
-<div class="contenido">
-  @if (vista === 'reservas') {
-    <app-registro-reservas></app-registro-reservas>
-  } @else {
-    <app-registro-comentarios></app-registro-comentarios>
-  }
+<div>
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="switch-container d-flex flex-column flex-lg-row justify-content-center align-items-center">
+      <button class="btn1"
+        [ngClass]="{ 'activo': vista === 'reservas' }" 
+        (click)="vista = 'reservas'">Reservas
+      </button>
+    
+      <button class="btn2"
+        [ngClass]="{ 'activo': vista === 'comentarios' }" 
+        (click)="vista = 'comentarios'">Comentarios
+      </button>
+    </div>
+  </div>
+  
+  <div class="contenido">
+    @if (vista === 'reservas') {
+      <app-registro-reservas></app-registro-reservas>
+    } @else {
+      <app-registro-comentarios></app-registro-comentarios>
+    }
+  </div>
 </div>

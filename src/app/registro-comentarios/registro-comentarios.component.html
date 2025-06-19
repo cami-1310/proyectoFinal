@@ -22,9 +22,9 @@
                 <span>{{ comentario.nombre }}</span>
               }
             </td >
-            <td style="width: 280px;" data-label="Email">
+            <td data-label="Email">
               @if (comentario.editando) {
-                <input [(ngModel)]="comentario.email" required style="width: 260px;">
+                <input [(ngModel)]="comentario.email" required>
               } @else {
                 <span>{{ comentario.email }}</span>
               }
@@ -36,9 +36,9 @@
                 <span>{{ comentario.nacionalidad }}</span>
               }
             </td >
-            <td style="width: 340px;"data-label="Mensaje">
+            <td data-label="Mensaje">
               @if (comentario.editando) {
-                  <textarea [(ngModel)]="comentario.mensaje" required style="width: 320px; resize: none;"></textarea>
+                  <textarea [(ngModel)]="comentario.mensaje" required style="width: 180px;resize: none;"></textarea>
               } @else {
                 <span style="word-break: break-word;">{{ comentario.mensaje }}</span>
               }

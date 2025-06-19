@@ -1,17 +1,55 @@
 body{
-    font-family: "Montserrat", sans-serif !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 0;
+  font-family: "Montserrat", sans-serif ;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0;
 }
 
 app-root{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.fuente-arial {
+  font-family: Arial, sans-serif;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+.fuente-verdana {
+  font-family: Verdana, sans-serif;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+.fuente-roboto {
+  font-family: Roboto, sans-serif;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+.fuente-Times {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.1em;
+  line-height: 1.6;
+}  
+
+.alto-contraste {
+  background-color: black !important;
+  color: yellow !important;
+}
+
+.alto-contraste a,
+.alto-contraste button,
+.alto-contraste h1,
+.alto-contraste h2,
+.alto-contraste h3,
+.alto-contraste p,
+.alto-contraste span {
+  color: yellow !important;
+  background-color: black !important;
+  border: 1px solid yellow !important;
 }

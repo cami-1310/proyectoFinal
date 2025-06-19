@@ -1,0 +1,48 @@
+<div class="container d-flex flex-column justify-content-center align-items-center">
+    <div class="title">
+        <h1>Bienvenido!</h1>
+        <h3>Vamos a reestablecer su contraseña</h3>
+    </div>
+    
+    <div [formGroup]="resetForm" class="d-flex flex-column justify-content-center align-items-center">
+        <mat-form-field>
+            <mat-label class="label-custom">Nombre de usuario</mat-label>
+            <input matInput required formControlName="username">
+            <mat-error>
+                @if (resetForm.get('username')?.hasError('required')) {
+                    El nombre de usuario es obligatorio
+                }
+            </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field>
+            <mat-label class="label-custom">Contraseña</mat-label>
+            <input matInput type="password" required formControlName="password">
+            <mat-error>
+                @if (resetForm.get('password')?.hasError('required')) {
+                    La contraseña es obligatoria
+                } @else if (resetForm.get('password')?.hasError('minlength')) {
+                    Debe tener al menos 8 caracteres
+                } @else if (resetForm.get('password')?.hasError('maxlength')) {
+                    No puede tener más de 16 caracteres
+                } @else if (resetForm.get('password')?.hasError('pattern')) {
+                    Debe tener al menos una mayúscula, un número, o _
+                }
+            </mat-error>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label class="label-custom">Confirma tu contraseña</mat-label>
+            <input matInput type="password" required formControlName="confirmPassword">
+            <mat-error>
+                @if (resetForm.get('confirmPassword')?.hasError('required')) {
+                    Debes confirmar la contraseña
+                } @else if (resetForm.get('confirmPassword')?.hasError('passwordsMismatch')) {
+                    Las contraseñas no coinciden
+                }
+            </mat-error>
+        </mat-form-field>
+    
+        <button mat-flat-button class="button" (click)="guardar()">Guardar Cambios</button>
+    </div>
+</div>

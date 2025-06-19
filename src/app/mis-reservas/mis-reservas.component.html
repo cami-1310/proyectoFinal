@@ -1,0 +1,25 @@
+<div class="container-fluid my-4">
+  <div class="text-center mb-4">
+    <h2>Mis reservas</h2>
+  </div>
+
+  <div class="grid" >
+    @for (reserva of reservas; track reserva.id) {
+      
+        <div class="card shadow">
+        <div class="card-body">
+          <h5 class="card-title">{{ reserva.nombre }}</h5>
+          <p class="card-text">
+            <strong>Fecha de llegada:</strong> {{ reserva.fechaIngreso | date }}<br>
+            <strong>Fecha de salida:</strong> {{ reserva.fechaSalida | date }}<br>
+            <strong>Tipo de habitación:</strong> {{ reserva.tipoHab.tipo }}<br>
+            <strong>Número de personas:</strong> {{ reserva.numPersonas }}<br>
+            <strong>Costo total:</strong> ${{ reserva.total }}.00 USD
+          </p>
+          <button class="btn btn-danger" (click)="eliminarReserva(reserva.id)">Eliminar</button>
+        </div>
+        </div>
+      
+    }
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <div class="container">
-    <div class="row">
-        <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center" style="height: 100%;">
             <div class="mensaje m-3">
                 <img src="cab.png" alt="...">
                 <h1>¡Gracias por reservar con nosotros!</h1>
@@ -9,7 +9,7 @@
             </div>
         </div>
     
-        <div class="col-12 col-lg-6">
+        <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
             <div class="contenedor m-3">
                 <form [formGroup]="form" (ngSubmit)="enviarFormulario()">
                     <!-- Nombre -->
@@ -35,7 +35,7 @@
                                 <div class="msj">La fecha de llegada es obligatoria.</div>
                             }
                         }
-                        @if (form.errors?.['fechaPasada']) {
+                        @if (form.errors?.['fechaPasada'] && formEnviado) {
                             <div class="msj">Tu fecha de llegada debe ser posterior a la de hoy.</div>
                         }
                     </div>
@@ -49,10 +49,10 @@
                                 <div class="msj">La fecha de salida es obligatoria.</div>
                             }
                         }
-                        @if (form.errors?.['fechasInvalidas']) {
+                        @if (form.errors?.['fechasInvalidas'] && formEnviado) {
                             <div class="msj">La fecha de salida debe ser posterior a la fecha de llegada.</div>
                         }
-                        @if (form.errors?.['estanciaInvalida']) {
+                        @if (form.errors?.['estanciaInvalida']  && formEnviado) {
                             <div class="msj">Tu estancia debe ser de al menos 1 dia.</div>
                         }
                     </div>
@@ -61,10 +61,11 @@
                     <div class="form-control mb-3">
                         <label class="form-label">Tipo de habitación:</label>
         
-                        @for (tipo of tiposHabitacion; track tipo) {
+                        <!-- Recorriendo habitaciones y creando un radio button por cada elemento -->
+                        @for (hab of habitaciones; track hab) {
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" [value]="tipo" formControlName="tipoHab" [id]="tipo">
-                                <label class="form-check-label" [for]="tipo">{{ tipo }}</label>
+                                <input class="form-check-input" type="radio" [value]="{ tipo: hab.tipo, costo: hab.costo }" formControlName="tipoHab" [id]="hab.tipo">
+                                <label class="form-check-label" [for]="hab.tipo">{{ hab.tipo }} - ${{hab.costo}}.00 USD</label>
                             </div>
                         }
         
@@ -89,7 +90,33 @@
                             <div class="msj">En esta cabaña solo pueden hospedarse {{ form.errors?.['maxPorTipo'] }} personas como máximo.</div>
                         }
                     </div>
-                    <button class="btn-enviar" type="submit" [disabled]="form.invalid">Crear reservación</button>
+
+                    <app-paypal (pagoCompleto)="onPagoHecho()"></app-paypal>
+
+                    @if (form.errors?.['pagoNoRealizado']) {
+                        <div class="msj">Debes realizar el pago para continuar.</div>
+                    }
+
+                    <button class="btn-enviar mt-3" type="submit" [disabled]="form.invalid">Crear reservación</button>
+
+                    <div class="modal fade" id="staticBackdrop" #reservaModal data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:  #143D60; color: white;">
+                                    <h3 class="modal-title  d-flex justify-content-center" id="staticBackdropLabel" >Reserva exitosa!</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body d-flex justify-content-center">
+                                    <qrcode [qrdata]="'http://localhost:4200/detalleReserva/' + idGenerado" [width]="256" [errorCorrectionLevel]="'M'"></qrcode><br>
+                                </div>
+                                <strong class="texto" style="display: flex; justify-content: center ;">Escanea tu QR para ver tu reserva</strong>
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn" style="background-color: #143D60; color: white;" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

@@ -16,5 +16,4 @@ export class SwitchLocalComponent {
   cambiarVista(vista: 'reservas' | 'comentarios') {
     this.vista = vista;
   }
-
 }

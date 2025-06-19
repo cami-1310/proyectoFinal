@@ -39,9 +39,9 @@
             </td>
             <td data-label="Tipo">
               @if (reserva.editando) {
-                <input [(ngModel)]="reserva.tipoHab">
+                <input [(ngModel)]="reserva.tipoHab.tipo">
               } @else {
-                {{ reserva.tipoHab }}
+                {{ reserva.tipoHab.tipo }}
               }
             </td>
             <td data-label="Personas">
