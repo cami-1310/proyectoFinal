@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoadBarraComponent } from './load-barra.component';
+import { CargandoComponent } from './cargando.component';
 
-describe('LoadBarraComponent', () => {
-  let component: LoadBarraComponent;
-  let fixture: ComponentFixture<LoadBarraComponent>;
+describe('CargandoComponent', () => {
+  let component: CargandoComponent;
+  let fixture: ComponentFixture<CargandoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoadBarraComponent]
+      imports: [CargandoComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoadBarraComponent);
+    fixture = TestBed.createComponent(CargandoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
