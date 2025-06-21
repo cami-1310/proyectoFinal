@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt'); 
 const { db } = require('./firebase.config');
-const { collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, where } = require('firebase/firestore');
+const { collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, where, getDoc } = require('firebase/firestore');
 const { enviarCorreo } = require('./nodemailer.config');
 
 const router = express.Router();
@@ -18,6 +18,25 @@ router.get('/:collectionName', async (req, res) => {
     console.log('error en get');
   }
 });
+
+// GET by ID
+router.get('/:collectionName/:id', async (req, res) => {
+  try {
+    const { collectionName, id } = req.params;
+    const docRef = doc(db, collectionName, id);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      return res.status(404).json({ error: 'Documento no encontrado' });
+    }
+
+    res.json({ id: docSnap.id, ...docSnap.data() });
+  } catch (error) {
+    console.error('Error al obtener documento por ID:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 // POST add
 router.post('/:collectionName', async (req, res) => {
