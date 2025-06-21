@@ -10,12 +10,13 @@ import { FirestoreService } from '../firestore.service';
 import Swal from 'sweetalert2';
 import bcrypt from 'bcryptjs';
 import { BlockService } from '../block.service';
+//import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 
 @Component({
   selector: 'app-login',
   standalone:true,
-  imports: [RouterModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule],
+  imports: [RouterModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule,],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
