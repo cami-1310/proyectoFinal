@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,18 +9,22 @@ import { LoginService } from '../login.service';
 import { FirestoreService } from '../firestore.service';
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { Auth } from '@angular/fire/auth';
+import { NgxCaptchaModule } from 'ngx-captcha'
+import { ReCaptcha2Component } from 'ngx-captcha';
 import Swal from 'sweetalert2';
 
 
 @Component({
   selector: 'app-login',
   standalone:true,
-  imports: [RouterModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule],
+  imports: [RouterModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, NgxCaptchaModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
+  @ViewChild(ReCaptcha2Component) captchaElem!: ReCaptcha2Component;
+
   loginForm: FormGroup;
   contador: number=0;
 
@@ -34,6 +38,7 @@ export class LoginComponent {
     this.loginForm=this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      Captcha: ['',Validators.required]
     });
   }
 
@@ -115,7 +120,6 @@ export class LoginComponent {
       } catch(error) {
         //si llega qui es que falló Firebase Auth, o sea, se equivocó al loguearse
         this.contador++;
-        console.log(this.contador);
         if (this.contador > 3) {
           //si ya es 3, hay que bloquear y mandar correo para reestablecer
           //hay que buscar el correo en admins
@@ -146,7 +150,6 @@ export class LoginComponent {
               });
             }
           });
-          this.loginForm.reset;
         } else {
           //si no es 3, hay que avisar del error, y cuantos intentos lleva
           Swal.fire({
@@ -154,8 +157,9 @@ export class LoginComponent {
             text: `Correo o contraseña incorrectos. Intento ${this.contador}/3`,
             icon: 'error'
           });
-          this.loginForm.reset;
         }
+
+        this.limpiarFormulario();
       }  
     }//else 
   }
@@ -174,5 +178,20 @@ export class LoginComponent {
         icon: 'error'
       });
     });
+  }
+
+  private limpiarFormulario(): void {
+    this.loginForm.reset({
+      email: '',
+      password: '',
+      Captcha: ''
+    });
+    this.loginForm.markAsPristine();
+    this.loginForm.markAsUntouched();
+
+    // Reiniciar el captcha visualmente
+    if (this.captchaElem) {
+      this.captchaElem.resetCaptcha();
+    }
   }
 }
