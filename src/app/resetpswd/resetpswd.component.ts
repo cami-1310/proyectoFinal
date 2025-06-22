@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { FirestoreService } from '../firestore.service';
 import { BlockService } from '../block.service';
 import Swal from 'sweetalert2';
@@ -20,11 +20,9 @@ export class ResetpswdComponent {
   resetForm: FormGroup;
 
   constructor(private fb: FormBuilder, private router: Router, private  firestoreService: FirestoreService, private blockService: BlockService){
-    this.resetForm=this.fb.group({
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16), Validators.pattern(/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d_]{8,16}$/)]], 
-      confirmPassword: ['', Validators.required]
-    }, {validators: this.matchPasswords});
+    this.resetForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
   }
 
   matchPasswords(group: FormGroup) {
