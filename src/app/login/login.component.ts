@@ -10,13 +10,14 @@ import { FirestoreService } from '../firestore.service';
 import Swal from 'sweetalert2';
 import bcrypt from 'bcryptjs';
 import { BlockService } from '../block.service';
+import {NgxCaptchaModule} from 'ngx-captcha'
 //import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 
 
 @Component({
   selector: 'app-login',
   standalone:true,
-  imports: [RouterModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule,],
+  imports: [RouterModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule,NgxCaptchaModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -30,6 +31,7 @@ export class LoginComponent {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      Captcha: ['',Validators.required]
     });
   }
 

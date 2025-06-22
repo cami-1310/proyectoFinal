@@ -35,7 +35,12 @@
                 }
             </mat-error>
         </mat-form-field>
-        
+
+        <div class="d-flex justify-content-center my-3">
+            <ngx-recaptcha2 [siteKey]="'6LeEKWkrAAAAAAxO164GrMQgbgTIqzoQ6egG71B4'"
+            [useGlobalDomain]="false" formControlName="Captcha"></ngx-recaptcha2>
+        </div>
+
         <button mat-flat-button class="button" (click)="compararCredenciales()">Ingresar</button>
     </div>
     <p>Si no tienes una cuenta</p>
