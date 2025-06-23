@@ -12,30 +12,16 @@
       </button>
 
       <button class="btn3"
-        [ngClass]="{ 'activo': vista === 'grafica' }" 
+        [ngClass]="{ 'activo': vista() === 'grafica' }" 
         (click)="cambiarVista('grafica')">Gráfica
       </button>
     </div>
   </div>
   
-<<<<<<< HEAD
-  <div class="contenido mt-4">
-    @if (vista() === 'reservas') {
-      <div class="d-flex flex-column flex-lg-row justify-content-center align-items-start gap-4">
-        <div class="registro flex-fill">
-          <app-registro-reservas></app-registro-reservas>
-        </div>
-        <div class="grafica flex-fill">
-          <app-grafica></app-grafica>
-        </div>
-      </div>
-    } @else {
-=======
   <div class="contenido">
-    @if (vista === 'reservas') {
+    @if (vista() === 'reservas') {
       <app-registro-reservas></app-registro-reservas>
-    } @else if (vista === 'comentarios') {
->>>>>>> 5bbd4fad6bc2eac9de49519d4888035bfae8935b
+    } @else if (vista() === 'comentarios') {
       <app-registro-comentarios></app-registro-comentarios>
     } @else {
       <app-grafica></app-grafica>
