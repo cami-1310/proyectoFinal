@@ -11,15 +11,11 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.2.8",
-    "@angular/cdk": "^19.2.15",
+    "@angular/cdk": "^19.2.18",
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
     "@angular/core": "^19.2.0",
-<<<<<<< HEAD
     "@angular/fire": "^19.2.0",
-=======
-    "@angular/fire": "^20.0.1",
->>>>>>> origin/main
     "@angular/forms": "^19.2.0",
     "@angular/material": "^19.2.15",
     "@angular/platform-browser": "^19.2.0",
@@ -29,12 +25,10 @@
     "angularx-qrcode": "^19.0.0",
     "bcryptjs": "^3.0.2",
     "bootstrap": "^5.3.5",
+    "d3": "^7.9.0",
     "firebase": "^11.9.1",
-<<<<<<< HEAD
-=======
     "lightweight-charts": "^5.0.7",
     "ngx-captcha": "^13.0.0",
->>>>>>> origin/main
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.21.0",
     "tslib": "^2.3.0",

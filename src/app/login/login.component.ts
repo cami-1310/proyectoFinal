@@ -1,23 +1,10 @@
-<<<<<<< HEAD
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-=======
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
->>>>>>> origin/main
+
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-<<<<<<< HEAD
-import { LoginService } from '../login.service';
-import { FirestoreService } from '../firestore.service';
-import { BlockService } from '../block.service';
-import { AuthService } from '../auth.service';
-import Swal from 'sweetalert2';
-import bcrypt from 'bcryptjs';
-=======
+
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../login.service';
@@ -27,13 +14,14 @@ import { Auth } from '@angular/fire/auth';
 import { NgxCaptchaModule } from 'ngx-captcha'
 import { ReCaptcha2Component } from 'ngx-captcha';
 import Swal from 'sweetalert2';
+import { signInWithPhoneNumber, RecaptchaVerifier, ConfirmationResult } from 'firebase/auth';
+import { FormsModule } from '@angular/forms'; // Necesario para [(ngModel)]
 
->>>>>>> origin/main
 
 @Component({
   selector: 'app-login',
   standalone:true,
-  imports: [RouterModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, NgxCaptchaModule],
+  imports: [FormsModule,RouterModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, NgxCaptchaModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -44,17 +32,22 @@ export class LoginComponent {
   loginForm: FormGroup;
   contador: number=0;
 
+  showPhoneLogin = false;
+  phoneNumber = '';
+  verificationCode = '';
+  confirmationResult?: ConfirmationResult;
+  recaptchaVerifier!: RecaptchaVerifier;
+@ViewChild('recaptchaContainer', { static: false }) recaptchaContainer!: any;
+
+
+
   constructor(
     private fb: FormBuilder, 
     private loginService: LoginService, 
     private router: Router, 
     private firestoreService: FirestoreService, 
-<<<<<<< HEAD
-    private blockService: BlockService, 
-    private authService: AuthService
-=======
+
     private auth: Auth
->>>>>>> origin/main
   ){
     this.loginForm=this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -72,67 +65,7 @@ export class LoginComponent {
         icon: 'warning'
       });
       return;
-<<<<<<< HEAD
-    }
-    
-    const {email, password}=this.loginForm.value;
 
-    this.authService.login(email, password).then(cred => {
-      this.authService.getAdminByEmail(email).subscribe(admin => {
-        if (admin?.bloqueado) {
-          Swal.fire({
-            title: 'Cuenta bloqueada',
-            text: 'Tu cuenta está bloqueada. Restablece tu contraseña.',
-            icon: 'error'
-          });
-          return;
-        }
-
-        this.loginService.login(admin, 'admin');
-        Swal.fire('Bienvenido administrador', '', 'success').then(() => {
-          this.router.navigate(['/home']).then(() => window.location.reload());
-        });
-      });
-    }).catch(error=>{
-      this.contador++;
-      let mensaje = 'Error desconocido';
-
-      switch (error.code) {
-        case 'auth/user-not-found':
-          mensaje = 'Correo no registrado';
-          break;
-        case 'auth/wrong-password':
-          mensaje = 'Contraseña incorrecta';
-          break;
-      }
-
-      Swal.fire('Error de autenticación', mensaje, 'error');
-
-      if (this.contador == 3) {
-        Swal.fire({
-          title: '¿Olvidaste tu contraseña?',
-          text: '¿Deseas restablecer tu contraseña ahora?',
-          icon: 'question',
-          showCancelButton: true,
-          confirmButtonText: 'Sí',
-          cancelButtonText: 'No'
-        }).then(result => {
-          if (result.isConfirmed) {
-            this.restablecerContrasena(email);
-          }
-        });
-      }
-    });
-  }
-
-  restablecerContrasena(email: string) {
-    this.authService.resetPassword(email).then(() => {
-      Swal.fire('Revisa tu correo', 'Te enviamos un enlace para restablecer tu contraseña.', 'info');
-    }).catch(err => {
-      console.error(err);
-      Swal.fire('Error', 'No se pudo enviar el correo.', 'error');
-    });
-=======
     } else {
       const {email, password}=this.loginForm.value;
 
@@ -242,7 +175,7 @@ export class LoginComponent {
         }
 
         this.limpiarFormulario();
-      }  
+      } 
     }//else 
   }
 
@@ -275,6 +208,74 @@ export class LoginComponent {
     if (this.captchaElem) {
       this.captchaElem.resetCaptcha();
     }
->>>>>>> origin/main
+
   }
+
+  initRecaptcha() {
+    if (!this.recaptchaVerifier) {
+      if (this.recaptchaContainer && this.recaptchaContainer.nativeElement) {
+        this.recaptchaVerifier = new RecaptchaVerifier(
+          this.auth,
+          this.recaptchaContainer.nativeElement,
+          {
+            size: 'normal',
+            callback: (response: any) => {
+              console.log('reCAPTCHA resuelto:', response);
+            },
+            'expired-callback': () => {
+              console.log('reCAPTCHA expiró');
+            }
+          }
+        );
+
+
+        this.recaptchaVerifier.render().then((widgetId: number) => { //de string a numero
+          console.log('reCAPTCHA rendered with widget ID:', widgetId);
+        });
+      } else {
+        console.error("reCAPTCHA container element not found. Make sure #recaptchaContainer is in your template.");
+      }
+    }
+  }
+
+
+enviarSMS() {
+  if (!this.phoneNumber.startsWith('+')) {
+    Swal.fire('Formato incorrecto', 'Incluye el prefijo del país. Ej: +52...', 'warning');
+    return;
+  }
+
+  this.initRecaptcha();
+
+  signInWithPhoneNumber(this.auth, this.phoneNumber, this.recaptchaVerifier)
+    .then(result => {
+      this.confirmationResult = result;
+      Swal.fire('Código enviado', 'Verifica tu teléfono', 'info');
+    })
+    .catch(error => {
+      console.error('Error sending SMS:', error);
+      Swal.fire('Error', 'No se pudo enviar el código. Por favor, verifica el número o intenta de nuevo.', 'error');
+    });
+}
+
+
+verificarCodigo() {
+  if (!this.confirmationResult) {
+    Swal.fire('Error', 'Primero envía el SMS para obtener el código de verificación.', 'error');
+    return;
+  }
+
+  this.confirmationResult.confirm(this.verificationCode)
+    .then(result => {
+      const user = result.user;
+      Swal.fire('Bienvenido', 'Autenticación por SMS exitosa', 'success').then(() => {
+        this.router.navigate(['/home']).then(() => window.location.reload());
+      });
+    })
+    .catch(error => {
+      console.error('Error verifying code:', error);
+      Swal.fire('Error', 'Código incorrecto o expirado. Intenta de nuevo.', 'error');
+    });
+}
+
 }
