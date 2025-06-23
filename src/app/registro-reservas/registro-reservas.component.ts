@@ -76,9 +76,11 @@ export class RegistroReservasComponent {
       next: () => {
         delete reserva.editando;
         delete reserva.copia;
+         
       },
       error: err => {
         console.error('Error al actualizar reserva:', err);
+         
       }
     });
   }
