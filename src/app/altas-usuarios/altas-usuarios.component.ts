@@ -26,7 +26,7 @@ export class AltasUsuariosComponent {
       nombreCompleto: ['', Validators.required],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phoneNum: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      phoneNum: ['', [Validators.required, Validators.pattern(/^\+\d{1,3}\d{10}$/)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16), Validators.pattern(/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d_]{8,16}$/)]], 
       confirmPassword: ['', Validators.required]
     }, {validators: this.matchPasswords});
