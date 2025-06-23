@@ -140,14 +140,13 @@ export class LoginComponent {
     }//else 
   }
 
-  // --- Nueva función para manejar el inicio de sesión con Google ---
   async signInWithGoogle() {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this.auth, provider);
-      const userEmail = result.user.email; // userEmail puede ser string | null
+      const userEmail = result.user.email; 
 
-      this.handleSuccessfulLogin(userEmail); // Reutilizar la función unificada
+      this.handleSuccessfulLogin(userEmail); 
       
     } catch (error: any) {
       console.error('Error al iniciar sesión con Google:', error);
@@ -165,7 +164,7 @@ export class LoginComponent {
     }
   }
 
-  // Función unificada para manejar el login exitoso (email/password o Google)
+
   // Ahora acepta userEmail como string o null
   private handleSuccessfulLogin(userEmail: string | null) {
     if (userEmail === null) {
@@ -310,52 +309,124 @@ export class LoginComponent {
   }
 
 
-enviarSMS() {
-  if (!this.phoneNumber.startsWith('+')) {
-    Swal.fire('Formato incorrecto', 'Incluye el prefijo del país. Ej: +52...', 'warning');
-    return;
-  }
-
-  setTimeout(() => {
-    this.initRecaptcha();
-
-
-    if (this.recaptchaVerifier) {
-      signInWithPhoneNumber(this.auth, this.phoneNumber, this.recaptchaVerifier)
-        .then(result => {
-          this.confirmationResult = result;
-          Swal.fire('Código enviado', 'Verifica tu teléfono', 'info');
-        })
-        .catch(error => {
-          console.error('Error al enviar SMS:', error);
-          Swal.fire('Error', 'No se pudo enviar el código. Por favor, verifica el número o intenta de nuevo.', 'error');
-        });
-    } else {
-      console.error('Recaptcha Verifier no inicializado. Revisa la plantilla y los tiempos.');
-      Swal.fire('Error', 'No se pudo iniciar la verificación de reCAPTCHA. Intenta de nuevo.', 'error');
-    }
-  }, 0); 
-}
-
-
-verificarCodigo() {
+async verificarCodigo() {
   if (!this.confirmationResult) {
     Swal.fire('Error', 'Primero envía el SMS para obtener el código de verificación.', 'error');
     return;
   }
+  this.isLoading = true; 
 
-  this.confirmationResult.confirm(this.verificationCode)
-    .then(result => {
-      const user = result.user;
-      console.log(user);
-      Swal.fire('Bienvenido', 'Autenticación por SMS exitosa', 'success').then(() => {
-        this.router.navigate(['/home']).then(() => window.location.reload());
-      });
-    })
-    .catch(error => {
-      console.error('Error al verificar código:', error);
-      Swal.fire('Error', 'Código incorrecto o expirado. Intenta de nuevo.', 'error');
-    });
+  try {
+    const result = await this.confirmationResult.confirm(this.verificationCode);
+    const user = result.user;
+    const userPhoneNumber = user.phoneNumber; 
+
+    if (userPhoneNumber) {
+        await this.handleSuccessfulPhoneLogin(userPhoneNumber); 
+    } else {
+        Swal.fire({
+            title: 'Error de autenticación',
+            text: 'No se pudo obtener el número de teléfono del usuario.',
+            icon: 'error'
+        });
+        this.auth.signOut();
+        this.isLoading = false;
+    }
+  } catch (error) {
+    console.error('Error al verificar código:', error);
+    Swal.fire('Error', 'Código incorrecto o expirado. Intenta de nuevo.', 'error');
+    this.isLoading = false; 
+  }
 }
+
+
+async enviarSMS() { 
+  if (!this.phoneNumber.startsWith('+')) {
+    Swal.fire('Formato incorrecto', 'Incluye el prefijo del país. Ej: +52...', 'warning');
+    return;
+  }
+  this.isLoading = true;
+
+
+  setTimeout(async () => { 
+    this.initRecaptcha();
+
+    if (this.recaptchaVerifier) {
+      try {
+        const result = await signInWithPhoneNumber(this.auth, this.phoneNumber, this.recaptchaVerifier);
+        this.confirmationResult = result;
+        Swal.fire('Código enviado', 'Verifica tu teléfono', 'info');
+      } catch (error) {
+        console.error('Error al enviar SMS:', error);
+        Swal.fire('Error', 'No se pudo enviar el código. Por favor, verifica el número o intenta de nuevo.', 'error');
+      } finally {
+        this.isLoading = false; 
+      }
+    } else {
+      console.error('Recaptcha Verifier no inicializado. Revisa la plantilla y los tiempos.');
+      Swal.fire('Error', 'No se pudo iniciar la verificación de reCAPTCHA. Intenta de nuevo.', 'error');
+      this.isLoading = false;
+    }
+  }, 0); 
+}
+private async handleSuccessfulPhoneLogin(phoneNumber: string): Promise<void> {
+    try {
+      console.log(phoneNumber);
+      const admins = await this.firestoreService.getWhere('admins', [{ fieldPath: 'phoneNumber', opStr: '==', value: phoneNumber }]).toPromise();
+
+      
+      if (admins && admins.length > 0) {
+        const admin = admins[0];
+        if (admin.bloqueado) {
+          await this.firestoreService.update('admins', admin.id, { bloqueado: false }).toPromise();
+        }
+        this.loginService.login(admin, 'admin');
+        Swal.fire({ 
+          title: 'Bienvenido Administrador', 
+          icon: 'success' }).then(() => {
+            this.router.navigate(['/home']).then(() => {
+            window.location.reload();
+            this.isLoading = false; 
+          });
+        });
+        return;
+      }
+      
+      const users = await this.firestoreService.getWhere('users', [{ fieldPath: 'phoneNumber', opStr: '==', value: phoneNumber }]).toPromise();
+      if (users && users.length > 0) {
+        const user = users[0];
+        if (user.bloqueado) {
+          await this.firestoreService.update('users', user.id, { bloqueado: false }).toPromise();
+        }
+        this.loginService.login(user, 'user');
+        Swal.fire({ 
+          title: 'Bienvenido', 
+          icon: 'success' }).then(() => {
+            this.router.navigate(['/home']).then(() => {
+            window.location.reload();
+            this.isLoading = false; 
+          });
+        });
+      } else {
+        Swal.fire({
+          title: 'Número de teléfono no registrado',
+          text: 'Tu número de teléfono se autenticó, pero no está registrado en nuestra base de datos. Por favor, regístrate.',
+          icon: 'error'
+        }).then(() => {
+          this.auth.signOut();
+          this.isLoading = false; 
+        });
+      }
+    } catch (error) {
+      console.error('Error al manejar el login telefónico en Firestore:', error);
+      Swal.fire({
+        title: 'Error de base de datos',
+        text: 'No se pudo verificar tu cuenta en nuestra base de datos. Intenta de nuevo.',
+        icon: 'error'
+      });
+      this.auth.signOut();
+      this.isLoading = false;
+    }
+  }
 
 }
