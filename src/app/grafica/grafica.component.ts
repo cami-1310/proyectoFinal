@@ -1,11 +1,12 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgxChartsModule, ScaleType, LegendPosition } from '@swimlane/ngx-charts';
 import { FirestoreService } from '../firestore.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-grafica',
   standalone: true,
-  imports: [NgxChartsModule],
+  imports: [NgxChartsModule,CommonModule],
   templateUrl: './grafica.component.html',
   styleUrl: './grafica.component.css'
 })

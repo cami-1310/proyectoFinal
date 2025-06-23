@@ -1,21 +1,18 @@
-body{
-  font-family: "Montserrat", sans-serif ;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+body {
+  font-family: "Montserrat", sans-serif;
   margin: 0;
-}
-
-app-root{
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
 }
 
+app-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}
 .fuente-arial {
   font-family: Arial, sans-serif;
   font-size: 1.1em;
@@ -36,7 +33,9 @@ app-root{
   font-size: 1.1em;
   line-height: 1.6;
 }  
-
+.fuente-montserrat {
+  font-family: "Montserrat", sans-serif;
+}
 .alto-contraste {
   background-color: black !important;
   color: yellow !important;

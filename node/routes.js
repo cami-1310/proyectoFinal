@@ -109,4 +109,31 @@ const obtenerEmailPorUsername = async (username) => {
   return snapshot.docs[0].data().email;
 };
 
+//ruta temporal para encriptar las contraseñas de admins desde Postman
+// router.post('/hash-passwords/:collectionName', async (req, res) => {
+//   try {
+//     const colRef = collection(db, req.params.collectionName);
+//     const snapshot = await getDocs(colRef);
+
+//     const updates = [];
+
+//     for (const docSnap of snapshot.docs) {
+//       const data = docSnap.data();
+
+//       // Solo si la contraseña no está hasheada aún
+//       if (data.password && !data.password.startsWith('$2b$')) {
+//         const hashed = await bcrypt.hash(data.password, 10);
+//         const docRef = doc(db, req.params.collectionName, docSnap.id);
+//         updates.push(updateDoc(docRef, { password: hashed }));
+//       }
+//     }
+
+//     await Promise.all(updates);
+//     res.json({ message: 'Contraseñas actualizadas correctamente' });
+//   } catch (error) {
+//     console.error('Error al actualizar contraseñas:', error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
 module.exports = router;

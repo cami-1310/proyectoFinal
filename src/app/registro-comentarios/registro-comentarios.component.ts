@@ -6,11 +6,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../firestore.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-registro-comentarios',
   standalone: true,
-  imports: [FormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [MatProgressSpinnerModule,FormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
   templateUrl: './registro-comentarios.component.html',
   styleUrls: ['./registro-comentarios.component.css']
 })
@@ -24,14 +26,23 @@ export class RegistroComentariosComponent {
     editando?: boolean;
     copia?: any; // Para cancelar edición
   }[] = [];
+    isLoading = false;   
+  @ViewChild('recaptchaContainer', { static: false }) recaptchaContainer!: any;
+
 
   constructor(private firestoreService: FirestoreService) {}
 
   ngOnInit() {
+    this.isLoading = true;//para icono de carga
     //obtenemos toda la info de la coleccion
     this.firestoreService.getAll('formContacto').subscribe({
       next: data => {
         this.comentarios=data;
+        this.isLoading=false;
+      },
+      error: err => {
+        console.error('Error al obtener datos:', err);
+        this.isLoading=false;
       }
     });
   }
