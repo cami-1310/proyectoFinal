@@ -1,0 +1,17 @@
+.grafica-container {
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+}
+
+.grafica-container h2 {
+  color: #143D60;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 992px) {
+  .grafica-container h2 {
+    font-size: 36px;
+  }
+}

@@ -2,21 +2,27 @@
   <div class="d-flex justify-content-center align-items-center">
     <div class="switch-container d-flex flex-column flex-lg-row justify-content-center align-items-center">
       <button class="btn1"
-        [ngClass]="{ 'activo': vista === 'reservas' }" 
-        (click)="vista = 'reservas'">Reservas
+        [ngClass]="{ 'activo': vista() === 'reservas' }"
+        (click)="cambiarVista('reservas')">Reservas
       </button>
     
       <button class="btn2"
-        [ngClass]="{ 'activo': vista === 'comentarios' }" 
-        (click)="vista = 'comentarios'">Comentarios
+        [ngClass]="{ 'activo': vista() === 'comentarios' }"
+        (click)="cambiarVista('comentarios')">Comentarios
       </button>
     </div>
   </div>
   
-  <div class="contenido">
-    @if (vista === 'reservas') {
-      <app-registro-reservas></app-registro-reservas>
-      <app-grafica></app-grafica>
+  <div class="contenido mt-4">
+    @if (vista() === 'reservas') {
+      <div class="d-flex flex-column flex-lg-row justify-content-center align-items-start gap-4">
+        <div class="registro flex-fill">
+          <app-registro-reservas></app-registro-reservas>
+        </div>
+        <div class="grafica flex-fill">
+          <app-grafica></app-grafica>
+        </div>
+      </div>
     } @else {
       <app-registro-comentarios></app-registro-comentarios>
     }
