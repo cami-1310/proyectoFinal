@@ -76,11 +76,11 @@ export class RegistroReservasComponent {
       next: () => {
         delete reserva.editando;
         delete reserva.copia;
-        this.loadingService.hide();
+         
       },
       error: err => {
         console.error('Error al actualizar reserva:', err);
-        this.loadingService.hide();
+         
       }
     });
   }
@@ -102,11 +102,11 @@ export class RegistroReservasComponent {
     this.firestoreService.delete('formReservas', reserva.id).subscribe({
       next: () => {
         this.reservas.splice(index, 1);
-        this.loadingService.hide();
+         
       },
       error: err => {
         console.error('Error al eliminar reserva:', err);
-        this.loadingService.hide();
+         
       }
     });
   }

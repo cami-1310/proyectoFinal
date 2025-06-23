@@ -26,7 +26,7 @@ export class AltasUsuariosComponent {
       nombreCompleto: ['', Validators.required],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phoneNum: ['', [Validators.required, Validators.pattern(/^\+\d{1,3}\d{10}$/)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+\d{1,3}\d{10}$/)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16), Validators.pattern(/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d_]{8,16}$/)]], 
       confirmPassword: ['', Validators.required]
     }, {validators: this.matchPasswords});
@@ -50,7 +50,7 @@ export class AltasUsuariosComponent {
             registro.nombreCompleto===datosIngresados.nombreCompleto ||
             registro.username===datosIngresados.username ||
             registro.email===datosIngresados.email ||
-            registro.phoneNum===datosIngresados.phoneNum
+            registro.phoneNumber===datosIngresados.phoneNumber
           );
 
           if(encontrado){
@@ -66,7 +66,7 @@ export class AltasUsuariosComponent {
               nombreCompleto: datosIngresados.nombreCompleto,
               username: datosIngresados.username,
               email: datosIngresados.email,
-              phoneNum: datosIngresados.phoneNum,
+              phoneNumber: datosIngresados.phoneNumber,
               password: hashedPassword,
               bloqueado: false
             };
