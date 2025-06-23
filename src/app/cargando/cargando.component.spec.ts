@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ResetpswdComponent } from './resetpswd.component';
+import { CargandoComponent } from './cargando.component';
 
-describe('ResetpswdComponent', () => {
-  let component: ResetpswdComponent;
-  let fixture: ComponentFixture<ResetpswdComponent>;
+describe('CargandoComponent', () => {
+  let component: CargandoComponent;
+  let fixture: ComponentFixture<CargandoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ResetpswdComponent]
+      imports: [CargandoComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ResetpswdComponent);
+    fixture = TestBed.createComponent(CargandoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

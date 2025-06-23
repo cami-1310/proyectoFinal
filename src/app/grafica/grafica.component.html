@@ -1,6 +1,6 @@
-<div class="grafica-container">
-  <h2>Gráfica de total de reservaciones por habitación</h2>
-
+<div class="contenedor" #graficaContenedor>
+  <h2>Total de reservaciones según la habitación</h2>
+  
   <ngx-charts-bar-horizontal
     [view]="view"
     [scheme]="colorScheme"
@@ -14,9 +14,7 @@
     [showXAxisLabel]="showXAxisLabel"
     [showYAxisLabel]="showYAxisLabel"
     [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    (select)="onSelect($event)"
-    (activate)="onActivate($event)"
-    (deactivate)="onDeactivate($event)">
+    [yAxisLabel]="yAxisLabel">
   </ngx-charts-bar-horizontal>
+  <br><br>
 </div>

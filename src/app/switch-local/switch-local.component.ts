@@ -12,9 +12,9 @@ import { signal } from '@angular/core';
   styleUrl: './switch-local.component.css'
 })
 export class SwitchLocalComponent {
-  vista=signal<'reservas'|'comentarios'>('reservas')
+  vista: 'reservas' | 'comentarios' | 'grafica' = 'reservas';
 
-  cambiarVista(v:'reservas'|'comentarios') {
-    this.vista.set(v);
+  cambiarVista(vista: 'reservas' | 'comentarios' | 'grafica') {
+    this.vista = vista;
   }
 }
