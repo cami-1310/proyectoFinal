@@ -21,9 +21,14 @@ export class FirestoreService {
     return this.http.get<any[]>(`${this.apiURL}/${collectionName}`);
   }
 
-    //leer por id
+  //leer por id
   getById(collectionName: string, id: string): Observable<any>{
     return this.http.get<any>(`${this.apiURL}/${collectionName}/${id}`);
+  }
+
+  //leer por email
+  getByEmail(collectionName: string, email: string): Observable<any>{
+    return this.http.get<any>(`${this.apiURL}/${collectionName}/${email}`);
   }
 
   //altas

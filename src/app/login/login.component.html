@@ -5,16 +5,6 @@
 
     <div [formGroup]="loginForm" class="d-flex flex-column justify-content-center align-items-center">
         <mat-form-field>
-            <mat-label class="label-custom">Nombre de usuario</mat-label>
-            <input matInput required formControlName="username">
-            <mat-error>
-                @if (loginForm.get('username')?.hasError('required')) {
-                    El nombre de usuario es obligatorio
-                }
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
             <mat-label class="label-custom">Email</mat-label>
             <input matInput required formControlName="email">
             <mat-error>

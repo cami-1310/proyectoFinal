@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MatInputModule } from '@angular/material/input';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../login.service';
-import { Router, RouterModule } from '@angular/router';
 import { FirestoreService } from '../firestore.service';
+import { BlockService } from '../block.service';
+import { AuthService } from '../auth.service';
 import Swal from 'sweetalert2';
 import bcrypt from 'bcryptjs';
-import { BlockService } from '../block.service';
-
 
 @Component({
   selector: 'app-login',
@@ -24,9 +24,15 @@ export class LoginComponent {
   loginForm: FormGroup;
   contador: number=0;
 
-  constructor(private fb: FormBuilder, private loginService: LoginService, private router: Router, private firestoreService: FirestoreService, private blockService: BlockService){
+  constructor(
+    private fb: FormBuilder, 
+    private loginService: LoginService, 
+    private router: Router, 
+    private firestoreService: FirestoreService, 
+    private blockService: BlockService, 
+    private authService: AuthService
+  ){
     this.loginForm=this.fb.group({
-      username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
@@ -41,134 +47,64 @@ export class LoginComponent {
         icon: 'warning'
       });
       return;
-    } else {
-      const datosIngresados=this.loginForm.value;
+    }
+    
+    const {email, password}=this.loginForm.value;
 
-      this.firestoreService.getAll('admins').subscribe({
-        next: (admins: any[]) => {
-          //lo buscamos en administradores
-          const admin=admins.find(admin => 
-            admin.username===datosIngresados.username &&
-            admin.email===datosIngresados.email
-          );
-
-          //si encuentra el user y email pero esta bloqueado
-          if(admin?.bloqueado){
-            Swal.fire({
-              title: "Cuenta bloqueada",
-              text: "Tu cuenta está bloqueada. Debes restablecer tu contraseña.",
-              icon: "error"
-            });
-            return;
-          }
-
-          //si no, ya nada mas nos resta verificar que coincida la contraseña
-          if(admin && bcrypt.compareSync(datosIngresados.password, admin.password)){
-            //si lo encuentra, se lo mandamos a login y le decimos que es admin
-            //y lo recibimos como admin
-            this.loginService.login(admin, 'admin');
-            Swal.fire({
-              title: "Bienvenido administrador",
-              icon: "success"
-            }).then(() => {
-              //redirige a home y luego recarga la pagina
-              this.router.navigate(['/home']).then(() => {
-                window.location.reload();
-              });
-            });
-          } else {
-            //si no esta en admins lo buscamos en users
-            this.firestoreService.getAll('users').subscribe({
-              next: (usuarios: any[]) => {
-                const usuarioEncontrado=usuarios.find(user =>
-                  user.username===datosIngresados.username &&
-                  user.email===datosIngresados.email
-                );
-
-                //si encuentra el user y email pero esta bloqueado
-                if(usuarioEncontrado?.bloqueado){
-                  Swal.fire({
-                    title: "Cuenta bloqueada",
-                    text: "Tu cuenta está bloqueada. Debes restablecer tu contraseña.",
-                    icon: "error"
-                  });
-                  return;
-                }
-
-                //si encuentra el user y email ya nada mas hay que ver la contraseña
-                if(usuarioEncontrado && bcrypt.compareSync(datosIngresados.password, usuarioEncontrado.password)){
-                  this.loginService.login(usuarioEncontrado, 'user');
-                  Swal.fire({
-                    title: 'Bienvenido!',
-                    icon: 'success'
-                  }).then(() => {
-                    this.router.navigate(['/home']).then(() => window.location.reload());
-                  });
-                } else {
-                  //si llego aqui es pq no se encuentran coincidencias ni en admins ni en users
-
-                  //pimero vemos cuantos intentos equivocados lleva
-                  if(this.contador==3){
-                    //si el contador es 3 es pq ya la bloqueo
-
-                    //hay que buscar nuevamente
-                    const adminPorUsername = admins.find(a => a.username === datosIngresados.username);
-
-                    if (adminPorUsername) {
-                      this.firestoreService.update('admins', adminPorUsername.id, { bloqueado: true }).subscribe(() => {
-                        Swal.fire({
-                          title: "Cuenta bloqueada",
-                          text: "Demasiados intentos fallidos. Para desbloquear tu cuenta debes restablecer tu contraseña.",
-                          icon: "error",
-                          confirmButtonText: 'Restablecer contraseña'
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            this.blockService.banderaBloqueado = true;
-                            this.router.navigate(['/resetpswd']);
-                          }
-                        });
-                      });
-                      return;
-                    }
-
-                    this.firestoreService.getAll('users').subscribe({
-                      next: (usuarios: any[]) => {
-                        const usuarioPorUsername=usuarios.find(user => user.username===datosIngresados.username); //aqui tenemos el usuario que coincide con el user que ingreso
-
-                        if(usuarioPorUsername){
-                          this.firestoreService.update('users', usuarioPorUsername.id, {bloqueado: true} ).subscribe( () => {
-                            Swal.fire({
-                              title: "Cuenta bloqueada",
-                              text: "Demasiados intentos fallidos. Para desbloquear tu cuenta debes reestablecer tu contraseña",
-                              icon: "error",
-                              confirmButtonText: 'Reestablecer contraseña'
-                            }).then((result) => {
-                              //lo mandamos a reestablecer la contra y avisamos que esta bloqueado
-                              if (result.isConfirmed) {
-                                this.blockService.banderaBloqueado=true;
-                                this.router.navigate(['/resetpswd']);
-                              }
-                            });
-                          });
-                        }
-                      }
-                    });
-                  } else {
-                    //si no, nada mas indicamos que no esta en la BD
-                    Swal.fire({
-                      title: "Datos no encontrados!",
-                      text: "Los datos ingresados no coinciden con ninguna de las credenciales registradas",
-                      icon: "error"
-                    });
-                    this.contador++;
-                    this.loginForm.reset();
-                  }
-                }
-              }
-            });
-          }
+    this.authService.login(email, password).then(cred => {
+      this.authService.getAdminByEmail(email).subscribe(admin => {
+        if (admin?.bloqueado) {
+          Swal.fire({
+            title: 'Cuenta bloqueada',
+            text: 'Tu cuenta está bloqueada. Restablece tu contraseña.',
+            icon: 'error'
+          });
+          return;
         }
-      }); 
-    } 
+
+        this.loginService.login(admin, 'admin');
+        Swal.fire('Bienvenido administrador', '', 'success').then(() => {
+          this.router.navigate(['/home']).then(() => window.location.reload());
+        });
+      });
+    }).catch(error=>{
+      this.contador++;
+      let mensaje = 'Error desconocido';
+
+      switch (error.code) {
+        case 'auth/user-not-found':
+          mensaje = 'Correo no registrado';
+          break;
+        case 'auth/wrong-password':
+          mensaje = 'Contraseña incorrecta';
+          break;
+      }
+
+      Swal.fire('Error de autenticación', mensaje, 'error');
+
+      if (this.contador == 3) {
+        Swal.fire({
+          title: '¿Olvidaste tu contraseña?',
+          text: '¿Deseas restablecer tu contraseña ahora?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'Sí',
+          cancelButtonText: 'No'
+        }).then(result => {
+          if (result.isConfirmed) {
+            this.restablecerContrasena(email);
+          }
+        });
+      }
+    });
+  }
+
+  restablecerContrasena(email: string) {
+    this.authService.resetPassword(email).then(() => {
+      Swal.fire('Revisa tu correo', 'Te enviamos un enlace para restablecer tu contraseña.', 'info');
+    }).catch(err => {
+      console.error(err);
+      Swal.fire('Error', 'No se pudo enviar el correo.', 'error');
+    });
   }
 }

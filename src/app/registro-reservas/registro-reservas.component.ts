@@ -51,7 +51,7 @@ export class RegistroReservasComponent {
       },
       error: err => {
         console.error('Error al obtener datos:', err);
-        this.loadingService.hide(); // también ocultamos en caso de error
+        this.loadingService.hide(); 
       }
     });
   }
