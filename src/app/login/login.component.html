@@ -42,6 +42,17 @@
             </div>
             
             <button mat-flat-button class="button" (click)="compararCredenciales()">Ingresar</button>
+
+            <div class="divider">
+                <span>O</span>
+            </div>
+
+            <!-- Nuevo botón para Iniciar Sesión con Google -->
+            <button mat-flat-button class="button google-button" (click)="signInWithGoogle()">
+                <mat-icon svgIcon="google-icon"></mat-icon> <!-- Necesitas configurar el icono de Google -->
+                Ingresar con Google
+            </button>
+
         </div>
         } @else {
     <div class="d-flex flex-column justify-content-center align-items-center">
@@ -50,8 +61,6 @@
         <input matInput [(ngModel)]="phoneNumber" placeholder="+521234567890">
         </mat-form-field>
 
-        <!-- AQUI VA EL DIV DEL reCAPTCHA PARA EL LOGIN POR TELÉFONO -->
-        <!-- Asegúrate de que esta línea esté presente y que no haya otro div con el mismo ID o referencia en esta sección si no es necesario -->
         <div #recaptchaContainer class="recaptcha-phone-container"></div> 
 
         <button mat-flat-button (click)="enviarSMS()">Enviar código</button>
