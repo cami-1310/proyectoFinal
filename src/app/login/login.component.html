@@ -5,16 +5,6 @@
 
     <div [formGroup]="loginForm" class="d-flex flex-column justify-content-center align-items-center">
         <mat-form-field>
-            <mat-label class="label-custom">Nombre de usuario</mat-label>
-            <input matInput required formControlName="username">
-            <mat-error>
-                @if (loginForm.get('username')?.hasError('required')) {
-                    El nombre de usuario es obligatorio
-                }
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
             <mat-label class="label-custom">Email</mat-label>
             <input matInput required formControlName="email">
             <mat-error>
@@ -35,10 +25,14 @@
                 }
             </mat-error>
         </mat-form-field>
-    
+
+        <div class="d-flex justify-content-center my-3">
+            <ngx-recaptcha2 [siteKey]="'6LeEKWkrAAAAAAxO164GrMQgbgTIqzoQ6egG71B4'"
+            [useGlobalDomain]="false" formControlName="Captcha"></ngx-recaptcha2>
+        </div>
+
         <button mat-flat-button class="button" (click)="compararCredenciales()">Ingresar</button>
     </div>
-
     <p>Si no tienes una cuenta</p>
     <a [routerLink]="['/altas']">click aquí</a>
 </div>
