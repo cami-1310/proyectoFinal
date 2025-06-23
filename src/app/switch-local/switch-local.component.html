@@ -12,17 +12,16 @@
       </button>
 
       <button class="btn3"
-        [ngClass]="{ 'activo': vista === 'grafica' }" 
+        [ngClass]="{ 'activo': vista() === 'grafica' }" 
         (click)="cambiarVista('grafica')">Gráfica
       </button>
     </div>
   </div>
   
   <div class="contenido">
-    @if (vista === 'reservas') {
+    @if (vista() === 'reservas') {
       <app-registro-reservas></app-registro-reservas>
-      <app-grafica></app-grafica>
-    } @else {
+    } @else if (vista() === 'comentarios') {
       <app-registro-comentarios></app-registro-comentarios>
     } @else {
       <app-grafica></app-grafica>
