@@ -347,6 +347,7 @@ verificarCodigo() {
   this.confirmationResult.confirm(this.verificationCode)
     .then(result => {
       const user = result.user;
+      console.log(user);
       Swal.fire('Bienvenido', 'Autenticación por SMS exitosa', 'success').then(() => {
         this.router.navigate(['/home']).then(() => window.location.reload());
       });
