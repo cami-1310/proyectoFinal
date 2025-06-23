@@ -7,7 +7,7 @@ import { GraficaComponent } from '../grafica/grafica.component';
 @Component({
   selector: 'app-switch-local',
   standalone:true,
-  imports: [CommonModule, RegistroComentariosComponent,RegistroReservasComponent,GraficaComponent],
+  imports: [CommonModule, RegistroComentariosComponent, RegistroReservasComponent, GraficaComponent],
   templateUrl: './switch-local.component.html',
   styleUrl: './switch-local.component.css'
 })
