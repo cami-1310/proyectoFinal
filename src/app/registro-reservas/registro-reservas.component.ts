@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FirestoreService } from '../firestore.service';
 import { LoadingService } from '../loading.service';
-import { CargandoComponent } from '../cargando/cargando.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 interface tipoHab {
   tipo: string;
@@ -19,7 +19,7 @@ interface tipoHab {
   standalone: true,
   imports: [
     FormsModule, CommonModule,
-    MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule
+    MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule,MatProgressSpinnerModule
   ],
   templateUrl: './registro-reservas.component.html',
   styleUrls: ['./registro-reservas.component.css']
@@ -35,23 +35,25 @@ export class RegistroReservasComponent {
     editando?: boolean;
     copia?: any;
   }[] = [];
+  isLoading = false;   
+  @ViewChild('recaptchaContainer', { static: false }) recaptchaContainer!: any;
+
 
   constructor(
     private firestoreService: FirestoreService,
     private loadingService: LoadingService
   ) {}
 
-  ngOnInit() {
-    this.loadingService.show();
-
+ ngOnInit() {
+    this.isLoading = true;//para icono de carga
     this.firestoreService.getAll('formReservas').subscribe({
       next: data => {
         this.reservas = data;
-        this.loadingService.hide();
+        this.isLoading=false;
       },
       error: err => {
         console.error('Error al obtener datos:', err);
-        this.loadingService.hide(); 
+        this.isLoading=false;
       }
     });
   }

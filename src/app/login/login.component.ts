@@ -21,12 +21,13 @@ import { NgxCaptchaModule } from 'ngx-captcha'
 import { ReCaptcha2Component } from 'ngx-captcha';
 import Swal from 'sweetalert2';
 import { FormsModule } from '@angular/forms'; // Necesario para [(ngModel)]
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @Component({
   selector: 'app-login',
   standalone:true,
-  imports: [FormsModule,RouterModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, NgxCaptchaModule],
+  imports: [MatProgressSpinnerModule,FormsModule,RouterModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ReactiveFormsModule, NgxCaptchaModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -42,6 +43,8 @@ export class LoginComponent {
   verificationCode = '';
   confirmationResult?: ConfirmationResult;
   recaptchaVerifier!: RecaptchaVerifier;
+
+  isLoading:boolean=false;
 @ViewChild('recaptchaContainer', { static: false }) recaptchaContainer!: any;
 
 
@@ -62,6 +65,8 @@ export class LoginComponent {
   }
 
   async compararCredenciales(){
+      this.isLoading = true;//para icono de carga
+     // await new Promise(resolve => setTimeout(resolve, 3000));/////////////////////////////para calar icono de carga
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       Swal.fire({
@@ -129,7 +134,9 @@ export class LoginComponent {
             });
         }
         this.limpiarFormulario();
-      } 
+      } finally{//para icono de carga
+        this.isLoading = false;
+      }
     }//else 
   }
 

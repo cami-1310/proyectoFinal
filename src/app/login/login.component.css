@@ -49,3 +49,9 @@ a{
 a:hover{
     transform: scale(1.1);
 }
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
