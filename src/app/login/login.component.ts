@@ -74,8 +74,8 @@ export class LoginComponent {
         text: 'Completa todos los campos requeridos',
         icon: 'warning'
       });
+      this.isLoading = false;
       return;
-
     } else {
       const {email, password}=this.loginForm.value;
 
@@ -134,6 +134,7 @@ export class LoginComponent {
             });
         }
         this.limpiarFormulario();
+         this.isLoading = false;
       } finally{//para icono de carga
         this.isLoading = false;
       }
