@@ -6,6 +6,26 @@ const { enviarCorreo } = require('./nodemailer.config');
 
 const router = express.Router();
 
+const obtenerEmailPorUsername = async (username) => {
+  const buscarEnColeccion = async (coleccion) => {
+    const colRef = collection(db, coleccion);
+    const q = query(colRef, where('username', '==', username));
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      return snapshot.docs[0].data().email;
+    }
+    return null;
+  };
+
+  const emailFromUsers = await buscarEnColeccion('users');
+  if (emailFromUsers) return emailFromUsers;
+
+  const emailFromAdmins = await buscarEnColeccion('admins');
+  if (emailFromAdmins) return emailFromAdmins;
+
+  throw new Error('Usuario no encontrado en ninguna colección');
+};
+
 // GET all
 router.get('/:collectionName', async (req, res) => {
   try {
@@ -98,16 +118,6 @@ router.post('/query/:collectionName', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-const obtenerEmailPorUsername = async (username) => {
-  const colRef = collection(db, 'users');
-  const q = query(colRef, where('username', '==', username));
-  const snapshot = await getDocs(q);
-  if (snapshot.empty) {
-    throw new Error('Usuario no encontrado');
-  }
-  return snapshot.docs[0].data().email;
-};
 
 //ruta temporal para encriptar las contraseñas de admins desde Postman
 // router.post('/hash-passwords/:collectionName', async (req, res) => {
