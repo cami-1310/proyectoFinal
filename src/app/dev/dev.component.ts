@@ -25,6 +25,13 @@ export class DevComponent {
       id: 347948,
       carrera_grupo: 'ISC 6to A',
       frase:"Todo lo que pierdes es un paso que das. (Taylor Swift)"
+    },
+    {
+      imagen: 'kim.jpg',
+      nom: 'Kimberly Guadalupe Marmolejo Garcia',
+      id: 351186,
+      carrera_grupo: 'ISC 6to A',
+      frase:"El derecho al resperto ajeno es la paz"
     }
   ];
 
