@@ -32,6 +32,13 @@ export class DevComponent {
       id: 349549,
       carrera_grupo: 'ISC 6to A',
       frase:"Wakalaaa ya no jala"
+    },
+  {
+      imagen: 'Chris.jpg',
+      nom: 'Christian Isaac Martinez Sanchez',
+      id: 349312,
+      carrera_grupo: 'ISC 6to A',
+      frase:"Arriba el Cruz Azul, abajo el America"
     }
   ];
 
