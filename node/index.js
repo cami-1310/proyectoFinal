@@ -7,10 +7,11 @@ const PORT = process.env.PORT || 3000;
 const routes = require('./routes');
 
 app.use(cors({
-  origin: 'http://localhost:4200',  // Permite solo desde localhost:4200
+  origin: ['http://localhost:4200', 'https://stillalp.netlify.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true  // si usas cookies o autenticación basada en sesiones
+  credentials: true
 }));
+
 app.use(express.json());
 
 // Usa todas las rutas definidas en routes.js
