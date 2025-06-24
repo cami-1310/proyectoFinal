@@ -30,19 +30,28 @@
     
     <div style="display: flex; justify-content: center; width: 100%;">
         <div class="devs-info">
-            <h1>Developers</h1>
-            <div class="devs-img row">
-                <div class="col-12 col-lg-6 d-flex justify-content-center justify-content-lg-end">
-                    <a [routerLink]="['/dev', 350426]">
-                        <img [src]="imgRafa">
-                    </a>
-                </div>
-                <div class="col-12 col-lg-6 d-flex justify-content-center justify-content-lg-start">
-                    <a [routerLink]="['/dev', 347948]">
-                        <img [src]="imgCami">
-                    </a>
-                </div>
+        <h1>Developers</h1>
+
+        <div class="container">
+        <div class="row devs-img">
+
+            <div class="col-12 col-lg-4 d-flex justify-content-center">
+            <a [routerLink]="['/dev', 350426]">
+                <img [src]="imgRafa" alt="Rafa" class="img-fluid">
+            </a>
             </div>
+
+            <div class="col-12 col-lg-4 d-flex justify-content-center">
+            <a [routerLink]="['/dev', 347948]">
+                <img [src]="imgCami" alt="Cami" class="img-fluid">
+            </a>
+            </div>
+
+            <div class="col-12 col-lg-4 d-flex justify-content-center">
+            <a [routerLink]="['/dev', 349312]">
+                <img [src]="imgChris" alt="Chris" class="img-fluid">
+            </a>
+            </div>
+
         </div>
     </div>
-</div>
