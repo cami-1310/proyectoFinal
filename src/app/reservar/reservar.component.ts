@@ -89,9 +89,7 @@ export class ReservarComponent {
   maxPersonas(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const tipoHab=control.get('tipoHab')?.value; //esto es un objeto con 2 campos: tipo y costo
-      console.log(tipoHab);
       const num=control.get('numPersonas')?.value;
-      console.log('numero: ', num);
 
       //objeto que asocia el tipo de cabaña con su num maximo de personas
       const limites: { [key: string]: number } = {
@@ -107,9 +105,7 @@ export class ReservarComponent {
 
       //accede al campo tipo del objeto, y busca ese string como clave en limites
       const max=limites[tipoHab.tipo]; //max guarda el maximo asociado al string de tipo
-      console.log(max);
       if(Number(num) > max){
-        console.log({maxPorTipo: max});
         return { maxPorTipo: max};
       } else {
         return null;
@@ -154,10 +150,6 @@ export class ReservarComponent {
   }
 
   enviarFormulario(){
-
-    console.log('Errores del form:', this.form.errors);
-    console.log('Es inválido:', this.form.invalid);
-
     this.formEnviado=true;
     //guardando en la BD
 
@@ -169,6 +161,7 @@ export class ReservarComponent {
       creadoPor: this.loginService.username
     };
 
+    console.log("reserva: ", reserva);
     this.firestoreService.add('formReservas', reserva).subscribe({
       next: (res) => {
         this.idGenerado = res.id;
