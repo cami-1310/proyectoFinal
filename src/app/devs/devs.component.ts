@@ -14,4 +14,5 @@ export class DevsComponent {
 
 
   imgChris: string="Chris.jpg";
+  imgKike: string="imgkikin.jpg";
 }
