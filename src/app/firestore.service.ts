@@ -12,7 +12,7 @@ interface QueryCondition {
   providedIn: 'root'
 })
 export class FirestoreService {
-  apiURL='http://localhost:3000/api';
+  apiURL='https://tu-app.onrender.com/api';
 
   constructor(private http: HttpClient) { }
 
