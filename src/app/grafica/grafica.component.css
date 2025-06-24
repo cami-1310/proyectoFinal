@@ -1,13 +1,14 @@
-.contenedor{
-    display: flex;
-    flex-direction: column;
-    margin: 20px;
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px;
 }
 
-h2{
-    text-align: center;
-    margin-bottom: 20px;
-    color: #143D60;
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #143D60;
 }
 
 ngx-charts-bar-horizontal {
