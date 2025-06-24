@@ -134,6 +134,7 @@ export class LoginComponent {
             });
         }
         this.limpiarFormulario();
+         this.isLoading = false;
       } finally{//para icono de carga
         this.isLoading = false;
       }
