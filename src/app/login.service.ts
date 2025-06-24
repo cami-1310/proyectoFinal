@@ -5,21 +5,28 @@ import { Injectable } from '@angular/core';
 })
 export class LoginService {
   public username: string='';
-
-  constructor() { 
-    const credenciales=localStorage.getItem('adminLogeado');
-    if(credenciales){
-      this.username = JSON.parse(credenciales).username;
-    }
+  tipoUsuario: string='';
+  
+  constructor() {
+    const usernameGuardado=localStorage.getItem('username');
+    const tipoGuardado=localStorage.getItem('tipoUsuario');
+    if (usernameGuardado) this.username=usernameGuardado;
+    if (tipoGuardado) this.tipoUsuario=tipoGuardado;
   }
 
-  login(datos: any){
-    localStorage.setItem('adminLogeado', JSON.stringify(datos));
+  login(datos: any, tipoUsuario: string){
     this.username=datos.username;
+    this.tipoUsuario=tipoUsuario;
+    //seguimos guardando en localStorage porque como recargamos la pagina
+    //en login, el username se pierde, entonces requiero guardarlo
+    localStorage.setItem('username', this.username);
+    localStorage.setItem('tipoUsuario', this.tipoUsuario);
   }
 
   logout(){
-    localStorage.removeItem('adminLogeado');
     this.username='';
+    this.tipoUsuario='';
+    localStorage.removeItem('username');
+    localStorage.removeItem('tipoUsuario');
   }
 }

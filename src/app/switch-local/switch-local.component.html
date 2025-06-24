@@ -1,20 +1,30 @@
-<div class="switch-container">
-  <button 
-    [ngClass]="{ 'activo': vista === 'reservas' }" 
-    (click)="vista = 'reservas'">Reservas
-  </button>
+<div>
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="switch-container d-flex flex-column flex-lg-row justify-content-center align-items-center">
+      <button class="btn1"
+        [ngClass]="{ 'activo': vista() === 'reservas' }"
+        (click)="cambiarVista('reservas')">Reservas
+      </button>
+    
+      <button class="btn2"
+        [ngClass]="{ 'activo': vista() === 'comentarios' }"
+        (click)="cambiarVista('comentarios')">Comentarios
+      </button>
 
-  <button 
-    [ngClass]="{ 'activo': vista === 'comentarios' }" 
-    (click)="vista = 'comentarios'">Comentarios
-  </button>
-
-</div>
-
-<div class="contenido">
-  @if (vista === 'reservas') {
-    <app-registro-reservas></app-registro-reservas>
-  } @else {
-    <app-registro-comentarios></app-registro-comentarios>
-  }
+      <button class="btn3"
+        [ngClass]="{ 'activo': vista() === 'grafica' }" 
+        (click)="cambiarVista('grafica')">Gráfica
+      </button>
+    </div>
+  </div>
+  
+  <div class="contenido">
+    @if (vista() === 'reservas') {
+      <app-registro-reservas></app-registro-reservas>
+    } @else if (vista() === 'comentarios') {
+      <app-registro-comentarios></app-registro-comentarios>
+    } @else {
+      <app-grafica></app-grafica>
+    }
+  </div>
 </div>

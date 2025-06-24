@@ -1,54 +1,113 @@
+import { Component,ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { FirestoreService } from '../firestore.service';
+import { LoadingService } from '../loading.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-interface Reserva {
-  nombre: string;
-  fechaIngreso: string;
-  fechaSalida: string;
-  tipoHab: string;
-  numPersonas: number;
-  editando?: boolean;
+interface tipoHab {
+  tipo: string;
+  costo: number;
 }
+
 @Component({
- selector: 'app-registro-reservas',
+  selector: 'app-registro-reservas',
   standalone: true,
-  imports: [FormsModule, CommonModule,MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [
+    FormsModule, CommonModule,
+    MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule,MatProgressSpinnerModule
+  ],
   templateUrl: './registro-reservas.component.html',
-  styleUrl:'./registro-reservas.component.css'
+  styleUrls: ['./registro-reservas.component.css']
 })
-export class RegistroReservasComponent implements OnInit {
-  reservas: Reserva[] = [];
+export class RegistroReservasComponent {
+  reservas: {
+    id?: string;
+    nombre: string;
+    fechaIngreso: string;
+    fechaSalida: string;
+    tipoHab: tipoHab;
+    numPersonas: number;
+    editando?: boolean;
+    copia?: any;
+  }[] = [];
+  isLoading = false;   
+  @ViewChild('recaptchaContainer', { static: false }) recaptchaContainer!: any;
 
-  ngOnInit(): void {
-    const data = localStorage.getItem('datosReserva');
-    this.reservas = data ? JSON.parse(data) : [];
+
+  constructor(
+    private firestoreService: FirestoreService,
+    private loadingService: LoadingService
+  ) {}
+
+ ngOnInit() {
+    this.isLoading = true;//para icono de carga
+    this.firestoreService.getAll('formReservas').subscribe({
+      next: data => {
+        this.reservas = data;
+        this.isLoading=false;
+      },
+      error: err => {
+        console.error('Error al obtener datos:', err);
+        this.isLoading=false;
+      }
+    });
   }
 
-  editarReserva(reserva: Reserva): void {
+  editarReserva(reserva: any) {
     reserva.editando = true;
+    reserva.copia = { ...reserva };
   }
 
-  guardarEdicion(reserva: Reserva): void {
-    reserva.editando = false;
-    this.actualizarLocalStorage();
+  guardarEdicion(reserva: any) {
+    if (!reserva.id) {
+      console.error('No hay ID para actualizar');
+      return;
+    }
+
+    const { id, copia, editando, ...dataLimpiada } = reserva;
+
+    this.loadingService.show();
+    this.firestoreService.update('formReservas', reserva.id, dataLimpiada).subscribe({
+      next: () => {
+        delete reserva.editando;
+        delete reserva.copia;
+         
+      },
+      error: err => {
+        console.error('Error al actualizar reserva:', err);
+         
+      }
+    });
   }
 
-  cancelarEdicion(reserva: Reserva): void {
-    reserva.editando = false;
-    this.ngOnInit(); // Recargar desde localStorage para descartar cambios
+  cancelarEdicion(reserva: any) {
+    Object.assign(reserva, reserva.copia);
+    delete reserva.editando;
+    delete reserva.copia;
   }
 
-  eliminarReserva(index: number): void {
-    this.reservas.splice(index, 1);
-    this.actualizarLocalStorage();
-  }
+  eliminarReserva(index: number) {
+    const reserva = this.reservas[index];
+    if (!reserva.id) {
+      console.error('No hay ID para eliminar');
+      return;
+    }
 
-  private actualizarLocalStorage(): void {
-    localStorage.setItem('datosReserva', JSON.stringify(this.reservas));
+    this.loadingService.show();
+    this.firestoreService.delete('formReservas', reserva.id).subscribe({
+      next: () => {
+        this.reservas.splice(index, 1);
+         
+      },
+      error: err => {
+        console.error('Error al eliminar reserva:', err);
+         
+      }
+    });
   }
 }

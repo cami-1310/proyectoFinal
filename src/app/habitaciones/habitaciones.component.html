@@ -17,32 +17,45 @@
   <div style="display: flex; justify-content: center; align-items: center;">
     <div class="contenedor">
       <h1>Todas las habitaciones cuentan con: </h1>
-      <div class="card-group">
-        <div class="card">
-          <img src="habs/baño.png" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Baño</h5>
-            <p class="card-text">Disfruta de un baño privado, con bañera y regadera, con acabados en madera natural y vistas relajantes a los bosques alpinos. Ideal para revitalizarte tras un día en la nieve.</p>
+      <div class="row">
+        <div class="col-md-12 col-lg-4 mb-3 mt-3 d-flex justify-content-center">
+          <div class="card">
+            <img src="habs/baño.png" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Baño</h5>
+              <p class="card-text">Disfruta de un baño privado, con bañera y regadera, con acabados en madera natural y vistas relajantes a los bosques alpinos. Ideal para revitalizarte tras un día en la nieve.</p>
+            </div>
           </div>
         </div>
-        <div class="card"> 
-          <img src="habs/sala.png" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Sala</h5>
-            <p class="card-text">Un espacio cálido con chimenea tradicional y ventanales amplios que enmarcan paisajes montañosos. Perfecta para relajarte con una taza de chocolate caliente.</p>
+
+        <div class="col-md-12 col-lg-4 mb-3 mt-3 d-flex justify-content-center">
+          <div class="card"> 
+            <img src="habs/sala.png" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Sala</h5>
+              <p class="card-text">Un espacio cálido con chimenea tradicional y ventanales amplios que enmarcan paisajes montañosos. Perfecta para relajarte con una taza de chocolate caliente.</p>
+            </div>
           </div>
         </div>
-        <div class="card">
-          <img src="habs/cocina.png" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Cocina</h5>
-            <p class="card-text">Cocina rústica y completamente equipada, donde puedes preparar cualquier platillo si decides cocinar (recuerda que tambien hay restaurante), todo en un entorno encantador y acogedor.</p>
+
+        <div class="col-md-12 col-lg-4 mb-3 mt-3 d-flex justify-content-center">
+          <div class="card">
+            <img src="habs/cocina.png" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Cocina</h5>
+              <p class="card-text">Cocina rústica y completamente equipada, donde puedes preparar cualquier platillo si decides cocinar (recuerda que tambien hay restaurante), todo en un entorno encantador y acogedor.</p>
+            </div>
           </div>
         </div>
       </div>
-      <a [routerLink]="['/reservar']">
-        <button class="btn btn-reservar">Reservar</button>
-      </a>
+
+      @if(username){
+        <a [routerLink]="['/reservar']">
+          <button class="btn btn-reservar">Reservar</button>
+        </a>
+      } @else {
+        <button class="btn btn-reservar" (click)="avisarLogin()">Reservar</button>
+      }
     </div>
   </div>
   
@@ -87,6 +100,7 @@
               <hr>
               <div class="especificaciones">
                 <ul class="list-unstyled">
+                    <li><strong>Costo:</strong> ${{ habitacionSeleccionada.costo }}.00</li>
                     <li><strong>Recámaras:</strong> {{ habitacionSeleccionada.noRecamaras }}</li>
                     <li><strong>Camas:</strong> {{ habitacionSeleccionada.noCamas }} ({{ habitacionSeleccionada.tipoCama }})</li>
                     <li><strong>Personas:</strong> {{ habitacionSeleccionada.noPersonas }}</li>
@@ -94,9 +108,15 @@
                 </ul>
               </div>
               <hr>
-              <a [routerLink]="['/reservar']" class="a-modal">
-                <button class="btn btn-reservar-modal" (click)="closeModal()">Reservar</button>
-              </a>
+              @if (username) {
+                <a [routerLink]="['/reservar']" class="a-modal">
+                  <button class="btn btn-reservar-modal" (click)="closeModal()">Reservar</button>
+                </a>
+              } @else {
+                <div class="a-modal">
+                  <button class="btn btn-reservar-modal" (click)="avisarLogin_modal()">Reservar</button>
+                </div>
+              }
             </div>
           }
         </div>

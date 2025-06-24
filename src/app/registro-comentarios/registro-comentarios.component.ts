@@ -5,16 +5,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
+import { FirestoreService } from '../firestore.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-registro-comentarios',
   standalone: true,
-  imports: [FormsModule, CommonModule,MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [MatProgressSpinnerModule,FormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
   templateUrl: './registro-comentarios.component.html',
   styleUrls: ['./registro-comentarios.component.css']
 })
 export class RegistroComentariosComponent {
   comentarios: {
+    id?: string;
     nombre: string;
     email: string;
     nacionalidad: string;
@@ -22,17 +26,25 @@ export class RegistroComentariosComponent {
     editando?: boolean;
     copia?: any; // Para cancelar edición
   }[] = [];
+    isLoading = false;   
+  @ViewChild('recaptchaContainer', { static: false }) recaptchaContainer!: any;
 
-  constructor() {
-    const datos = localStorage.getItem('comentarios');
-    if (datos) {
-      try {
-        this.comentarios = JSON.parse(datos);
-      } catch (e) {
-        console.error('Error leyendo localStorage', e);
-        this.comentarios = [];
+
+  constructor(private firestoreService: FirestoreService) {}
+
+  ngOnInit() {
+    this.isLoading = true;//para icono de carga
+    //obtenemos toda la info de la coleccion
+    this.firestoreService.getAll('formContacto').subscribe({
+      next: data => {
+        this.comentarios=data;
+        this.isLoading=false;
+      },
+      error: err => {
+        console.error('Error al obtener datos:', err);
+        this.isLoading=false;
       }
-    }
+    });
   }
 
   editarComentario(comentario: any) {
@@ -41,9 +53,23 @@ export class RegistroComentariosComponent {
   }
 
   guardarEdicion(comentario: any) {
-    delete comentario.editando;
-    delete comentario.copia;
-    this.actualizarLocalStorage();
+    if (!comentario.id) {
+      console.error('No hay ID para actualizar');
+      return;
+    }
+
+    //especificando qué vamos a guardar en la BD
+    const { id, copia, editando, ...dataLimpiada }=comentario;
+
+    this.firestoreService.update('formContacto', comentario.id, dataLimpiada).subscribe({
+      next: () => {
+        delete comentario.editando;
+        delete comentario.copia;
+      },
+      error: err => {
+        console.error('Error al actualizar comentario:', err);
+      }
+    });
   }
 
   cancelarEdicion(comentario: any) {
@@ -53,11 +79,15 @@ export class RegistroComentariosComponent {
   }
 
   eliminarComentario(index: number) {
-    this.comentarios.splice(index, 1);
-    this.actualizarLocalStorage();
-  }
-
-  private actualizarLocalStorage() {
-    localStorage.setItem('comentarios', JSON.stringify(this.comentarios));
+    const comentario=this.comentarios[index];
+    if (!comentario.id) {
+      console.error('No hay ID para eliminar');
+      return;
+    }
+    this.firestoreService.delete('formContacto', comentario.id).subscribe({
+      next: () => {
+        this.comentarios.splice(index, 1);
+      }
+    });
   }
 }

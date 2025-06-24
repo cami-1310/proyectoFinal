@@ -1,4 +1,9 @@
 <div class="tabla-container">
+  @if (isLoading) {
+  <div class="spinner-container">
+      <mat-spinner diameter="40"></mat-spinner>
+  </div>
+}
   @if (reservas.length > 0) {
     <h2>Reservaciones Registradas</h2>
     <div class="tabla-responsive">
@@ -39,9 +44,9 @@
             </td>
             <td data-label="Tipo">
               @if (reserva.editando) {
-                <input [(ngModel)]="reserva.tipoHab">
+                <input [(ngModel)]="reserva.tipoHab.tipo">
               } @else {
-                {{ reserva.tipoHab }}
+                {{ reserva.tipoHab.tipo }}
               }
             </td>
             <td data-label="Personas">
