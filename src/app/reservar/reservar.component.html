@@ -35,7 +35,7 @@
                                 <div class="msj">La fecha de llegada es obligatoria.</div>
                             }
                         }
-                        @if (form.errors?.['fechaPasada']) {
+                        @if (form.errors?.['fechaPasada'] && (form.get('fechaIngreso')?.touched || formEnviado)) {
                             <div class="msj">Tu fecha de llegada debe ser posterior a la de hoy.</div>
                         }
                     </div>
