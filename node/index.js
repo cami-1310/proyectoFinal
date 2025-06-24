@@ -17,6 +17,11 @@ app.use(express.json());
 // Usa todas las rutas definidas en routes.js
 app.use('/api', routes);
 
+// Para "despertar" a Render
+app.get('/api/ping', (req, res) => {
+  res.send('pong');
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
