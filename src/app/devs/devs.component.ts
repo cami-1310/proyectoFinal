@@ -10,4 +10,5 @@ import { RouterModule } from '@angular/router';
 export class DevsComponent {
   imgRafa: string="rafa.png";
   imgCami: string="camila.png";
+  imgKike: string="imgkikin.jpg";
 }
