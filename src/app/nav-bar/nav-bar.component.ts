@@ -18,7 +18,7 @@ export class NavBarComponent {
   mostrarPanel = false;
   fuenteSeleccionada: any;
   fuenteIndex = 0;
-  fuentesClases = ['fuente-arial', 'fuente-verdana', 'fuente-roboto', 'fuente-Times'];
+  fuentesClases = ['fuente-arial', 'fuente-verdana', 'fuente-roboto', 'fuente-Times', 'fuente-montserrat'];
   contrasteActivo = false;
 
   constructor(private loginService: LoginService, private router: Router, private speechService: SpeechService){ }

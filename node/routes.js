@@ -6,6 +6,26 @@ const { enviarCorreo } = require('./nodemailer.config');
 
 const router = express.Router();
 
+const obtenerEmailPorUsername = async (username) => {
+  const buscarEnColeccion = async (coleccion) => {
+    const colRef = collection(db, coleccion);
+    const q = query(colRef, where('username', '==', username));
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      return snapshot.docs[0].data().email;
+    }
+    return null;
+  };
+
+  const emailFromUsers = await buscarEnColeccion('users');
+  if (emailFromUsers) return emailFromUsers;
+
+  const emailFromAdmins = await buscarEnColeccion('admins');
+  if (emailFromAdmins) return emailFromAdmins;
+
+  throw new Error('Usuario no encontrado en ninguna colección');
+};
+
 // GET all
 router.get('/:collectionName', async (req, res) => {
   try {
@@ -99,14 +119,31 @@ router.post('/query/:collectionName', async (req, res) => {
   }
 });
 
-const obtenerEmailPorUsername = async (username) => {
-  const colRef = collection(db, 'users');
-  const q = query(colRef, where('username', '==', username));
-  const snapshot = await getDocs(q);
-  if (snapshot.empty) {
-    throw new Error('Usuario no encontrado');
-  }
-  return snapshot.docs[0].data().email;
-};
+//ruta temporal para encriptar las contraseñas de admins desde Postman
+// router.post('/hash-passwords/:collectionName', async (req, res) => {
+//   try {
+//     const colRef = collection(db, req.params.collectionName);
+//     const snapshot = await getDocs(colRef);
+
+//     const updates = [];
+
+//     for (const docSnap of snapshot.docs) {
+//       const data = docSnap.data();
+
+//       // Solo si la contraseña no está hasheada aún
+//       if (data.password && !data.password.startsWith('$2b$')) {
+//         const hashed = await bcrypt.hash(data.password, 10);
+//         const docRef = doc(db, req.params.collectionName, docSnap.id);
+//         updates.push(updateDoc(docRef, { password: hashed }));
+//       }
+//     }
+
+//     await Promise.all(updates);
+//     res.json({ message: 'Contraseñas actualizadas correctamente' });
+//   } catch (error) {
+//     console.error('Error al actualizar contraseñas:', error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 module.exports = router;

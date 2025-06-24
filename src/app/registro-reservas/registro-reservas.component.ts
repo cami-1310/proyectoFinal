@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FirestoreService } from '../firestore.service';
+import { LoadingService } from '../loading.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 interface tipoHab {
   tipo: string;
@@ -13,11 +15,14 @@ interface tipoHab {
 }
 
 @Component({
- selector: 'app-registro-reservas',
+  selector: 'app-registro-reservas',
   standalone: true,
-  imports: [FormsModule, CommonModule,MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule],
+  imports: [
+    FormsModule, CommonModule,
+    MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule,MatProgressSpinnerModule
+  ],
   templateUrl: './registro-reservas.component.html',
-  styleUrl:'./registro-reservas.component.css'
+  styleUrls: ['./registro-reservas.component.css']
 })
 export class RegistroReservasComponent {
   reservas: {
@@ -30,21 +35,32 @@ export class RegistroReservasComponent {
     editando?: boolean;
     copia?: any;
   }[] = [];
+  isLoading = false;   
+  @ViewChild('recaptchaContainer', { static: false }) recaptchaContainer!: any;
 
-  constructor(private firestoreService: FirestoreService) {}
 
-  ngOnInit() {
-    //obtenemos toda la info de la coleccion
+  constructor(
+    private firestoreService: FirestoreService,
+    private loadingService: LoadingService
+  ) {}
+
+ ngOnInit() {
+    this.isLoading = true;//para icono de carga
     this.firestoreService.getAll('formReservas').subscribe({
       next: data => {
-        this.reservas=data;
+        this.reservas = data;
+        this.isLoading=false;
+      },
+      error: err => {
+        console.error('Error al obtener datos:', err);
+        this.isLoading=false;
       }
     });
   }
 
   editarReserva(reserva: any) {
     reserva.editando = true;
-    reserva.copia = { ...reserva};
+    reserva.copia = { ...reserva };
   }
 
   guardarEdicion(reserva: any) {
@@ -53,16 +69,18 @@ export class RegistroReservasComponent {
       return;
     }
 
-    //especificando qué vamos a guardar en la BD
-    const { id, copia, editando, ...dataLimpiada }=reserva;
+    const { id, copia, editando, ...dataLimpiada } = reserva;
 
+    this.loadingService.show();
     this.firestoreService.update('formReservas', reserva.id, dataLimpiada).subscribe({
       next: () => {
         delete reserva.editando;
         delete reserva.copia;
+         
       },
       error: err => {
         console.error('Error al actualizar reserva:', err);
+         
       }
     });
   }
@@ -74,14 +92,21 @@ export class RegistroReservasComponent {
   }
 
   eliminarReserva(index: number) {
-    const reserva=this.reservas[index];
+    const reserva = this.reservas[index];
     if (!reserva.id) {
       console.error('No hay ID para eliminar');
       return;
     }
+
+    this.loadingService.show();
     this.firestoreService.delete('formReservas', reserva.id).subscribe({
       next: () => {
         this.reservas.splice(index, 1);
+         
+      },
+      error: err => {
+        console.error('Error al eliminar reserva:', err);
+         
       }
     });
   }

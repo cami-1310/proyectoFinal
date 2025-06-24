@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg" aria-label="menu principal">
   <div class="container">
     <button
       class="navbar-toggler"
@@ -43,7 +43,7 @@
 
           <li class="nav-item">
             <a class="nav-link" [routerLink]="['/reservar']">
-              <button class="btn btn-format">Reservar</button>
+              <button  class="btn btn-format">Reservar</button>
             </a>
           </li>
 
@@ -56,7 +56,7 @@
               </a>
             } @else if (tipoUsuario=='user') {
               <a [routerLink]="['/misReservas']" class="nav-link">
-                <button class="btn btn-format">{{ username }}</button>
+                <button class="btn btn-format" alt="c">{{ username }}</button>
               </a>
             }
           </li>
@@ -97,7 +97,7 @@
           </li>
 
           <li class="nav-item">
-            <a [routerLink]="['/login']" class="nav-link">
+            <a [routerLink]="['/login']" class="nav-link" title="Iniciar sesión" aria-label="Iniciar sesión">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="40"
@@ -117,7 +117,7 @@
         }
 
         <li class="nav-item">
-          <a [routerLink]="['/destinos']" class="nav-link">
+          <a [routerLink]="['/destinos']" class="nav-link" title="Ver destinos" aria-label="Destinos">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="40"
@@ -139,7 +139,7 @@
         </li>
         
         <li class="nav-item">
-          <button class="btn btn-accesibility nav-link" (click)="mostrarPanel = !mostrarPanel">
+          <button title="Abrir panel de accesibilidad" aria-label="Botón de accesibilidad"class="btn btn-accesibility nav-link" (click)="mostrarPanel = !mostrarPanel">
             <svg  
               xmlns="http://www.w3.org/2000/svg"  
               width="40"  

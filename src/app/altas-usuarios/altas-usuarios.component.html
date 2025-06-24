@@ -36,17 +36,18 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label class="label-custom">Numero de telefono</mat-label>
-            <input matInput type="number" required formControlName="phoneNum">
-            <mat-error>
-                @if (registroForm.get('phoneNum')?.hasError('required')) {
-                    El número de teléfono es obligatorio
-                } @else if (registroForm.get('phoneNum')?.hasError('pattern')) {
-                    El número debe tener exactamente 10 dígitos
-                }
-            </mat-error>
+        <mat-form-field >
+        <mat-label class="label-custom">Número de teléfono</mat-label>
+        <input matInput type="tel" required formControlName="phoneNumber" placeholder="+521234567890">
+        <mat-error>
+            @if (registroForm.get('phoneNumber')?.hasError('required')) {
+            El número de teléfono es obligatorio
+            } @else if (registroForm.get('phoneNumber')?.hasError('pattern')) {
+            Ingresa el número en formato internacional( ej: +521234567211)
+            }
+        </mat-error>
         </mat-form-field>
+
     
         <mat-form-field>
             <mat-label class="label-custom">Contraseña</mat-label>

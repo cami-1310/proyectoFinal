@@ -27,11 +27,25 @@ export class DevComponent {
       frase:"Todo lo que pierdes es un paso que das. (Taylor Swift)"
     },
     {
-      imagen: 'kim.jpg',
-      nom: 'Kimberly Guadalupe Marmolejo Garcia',
-      id: 351186,
+      imagen: 'imgkikin.jpg',
+      nom: 'Enrique Amador Macias',
+      id: 349549,
       carrera_grupo: 'ISC 6to A',
-      frase:"El derecho al resperto ajeno es la paz"
+      frase:"Wakalaaa ya no jala"
+    },
+    {
+      imagen: 'Chris.jpg',
+      nom:'Christian Isaac Martinez Sanchez',
+      id:349312,
+      carrera_grupo:'ISC 6to A',
+      frase:"Arriba el Cruz Azul, abajo el America"
+    },
+    {
+      imagen: 'kim.jpg',
+      nom:'Kimberly Guadalupe Marmolejo Garcia',
+      id:351186,
+      carrera_grupo:'ISC 6to A',
+      frase:"El respeto al derecho ajeno es la paz"
     }
   ];
 

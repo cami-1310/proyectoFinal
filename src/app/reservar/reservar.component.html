@@ -35,7 +35,7 @@
                                 <div class="msj">La fecha de llegada es obligatoria.</div>
                             }
                         }
-                        @if (form.errors?.['fechaPasada'] && formEnviado) {
+                        @if (form.errors?.['fechaPasada'] && (form.get('fechaIngreso')?.touched || formEnviado)) {
                             <div class="msj">Tu fecha de llegada debe ser posterior a la de hoy.</div>
                         }
                     </div>
@@ -49,10 +49,10 @@
                                 <div class="msj">La fecha de salida es obligatoria.</div>
                             }
                         }
-                        @if (form.errors?.['fechasInvalidas'] && formEnviado) {
+                        @if (form.errors?.['fechasInvalidas']) {
                             <div class="msj">La fecha de salida debe ser posterior a la fecha de llegada.</div>
                         }
-                        @if (form.errors?.['estanciaInvalida']  && formEnviado) {
+                        @if (form.errors?.['estanciaInvalida']) {
                             <div class="msj">Tu estancia debe ser de al menos 1 dia.</div>
                         }
                     </div>

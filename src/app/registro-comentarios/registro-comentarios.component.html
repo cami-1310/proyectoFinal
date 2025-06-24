@@ -1,4 +1,9 @@
 <div class="tabla-container">
+    @if (isLoading) {
+  <div class="spinner-container">
+      <mat-spinner diameter="40"></mat-spinner>
+  </div>
+}
   @if (comentarios.length > 0) {
     <h2>Comentarios Registrados</h2>
 

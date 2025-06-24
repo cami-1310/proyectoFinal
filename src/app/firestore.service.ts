@@ -12,7 +12,7 @@ interface QueryCondition {
   providedIn: 'root'
 })
 export class FirestoreService {
-  apiURL='http://localhost:3000/api';
+  apiURL='https://proyectofinal-spahotel.onrender.com/api';
 
   constructor(private http: HttpClient) { }
 
@@ -21,9 +21,14 @@ export class FirestoreService {
     return this.http.get<any[]>(`${this.apiURL}/${collectionName}`);
   }
 
-    //leer por id
+  //leer por id
   getById(collectionName: string, id: string): Observable<any>{
     return this.http.get<any>(`${this.apiURL}/${collectionName}/${id}`);
+  }
+
+  //leer por email
+  getByEmail(collectionName: string, email: string): Observable<any>{
+    return this.http.get<any>(`${this.apiURL}/${collectionName}/${email}`);
   }
 
   //altas
