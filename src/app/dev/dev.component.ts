@@ -35,7 +35,7 @@ export class DevComponent {
     },
     {
       imagen: 'Chris.jpg',
-      nom:'Christian Isac Martinez Sanchez',
+      nom:'Christian Isaac Martinez Sanchez',
       id:349312,
       carrera_grupo:'ISC 6to A',
       frase:"Arriba el Cruz Azul, abajo el America"
