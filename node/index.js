@@ -6,7 +6,12 @@ const PORT = process.env.PORT || 3000;
 // archivo de rutas
 const routes = require('./routes');
 
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:4200', 'https://stillalp.netlify.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Usa todas las rutas definidas en routes.js
