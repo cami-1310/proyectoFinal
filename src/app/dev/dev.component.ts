@@ -32,6 +32,20 @@ export class DevComponent {
       id: 349549,
       carrera_grupo: 'ISC 6to A',
       frase:"Wakalaaa ya no jala"
+    },
+    {
+      imagen: 'Chris.jpg',
+      nom:'Christian Isac Martinez Sanchez',
+      id:349312,
+      carrera_grupo:'ISC 6to A',
+      frase:"Arriba el Cruz Azul, abajo el America"
+    },
+    {
+      imagen: 'kim.jpg',
+      nom:'Kimberly Guadalupe Marmolejo Garcia',
+      id:351186,
+      carrera_grupo:'ISC 6to A',
+      frase:"El respeto al derecho ajeno es la paz"
     }
   ];
 
